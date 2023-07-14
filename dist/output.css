@@ -1,0 +1,73 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+.container {
+  padding-right: 15px;
+    padding-left: 15px;
+}
+
+@media (min-width: 1400px) {
+  .container {
+    max-width: 1230px;
+  }
+  }
+
+/* Header
+------------------------------*/
+.main-header .navbar li {
+  @apply px-[10px];
+}
+.main-header .navbar li a {
+  @apply px-[10px] font-[600] uppercase tracking-[2px] relative leading-[35px] inline-block text-[#343a40] text-[15px] cursor-pointer;
+}
+.main-header .navbar li a:after {
+  @apply content-[''] absolute left-[auto] right-[0] bottom-[0] ease-in duration-300 w-[0] h-[2px] bg-[#FFAFCC];
+}
+.main-header .navbar li a:hover,
+.main-header .navbar li a.active {
+  @apply text-[#FFAFCC];
+}
+
+.main-header .navbar li a:hover:after,
+.main-header .navbar li a.active:after {
+  @apply left-[0] right-[auto] w-[100%];
+}
+
+.main-header .navbar-collapse {
+  flex: 1;
+}
+
+.fixed-header .main-header {
+  @apply bg-white shadow-sm;
+}
+
+@media (max-width: 1023px) {
+  .main-header .navbar-collapse {
+    @apply absolute left-0 top-[100%] right-0 bg-white hidden;
+  }
+  .main-header .navbar-collapse.menu-open {
+    @apply block;
+  }
+  .main-header .navbar {
+    @apply w-full border-t-[1px] border-t-slate-200;
+  }
+  .main-header .navbar li {
+    @apply py-[5px] px-0;
+  }
+}
+
