@@ -1,1 +1,1 @@
-# petpal
+# PetPals
