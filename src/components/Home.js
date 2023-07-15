@@ -1,8 +1,11 @@
 import Banner from "./Banner";
+import PageTransition from "./PageTransition";
 export default function Home() {
   return (
-    <div>
-      <Banner />
-    </div>
+    <PageTransition>
+      <div>
+        <Banner />
+      </div>
+    </PageTransition>
   );
 }

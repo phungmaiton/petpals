@@ -8,11 +8,11 @@ export default function Banner() {
     <>
       <section
         id="home"
-        className="pt-[120px] pb-[80px] lg:pt-[180px] lg:pb-[100px] bg-[#EFF2FF] relative overflow-hidden"
+        className="pt-[120px] pb-[80px] lg:pt-[180px] lg:pb-[100px] bg-blue relative overflow-hidden"
       >
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto px-8">
           <div className="container relative z-[1]">
-            <div className="grid lg:grid-cols-12 grid-cols-1 items-center">
+            <div className="grid gap-9 lg:grid-cols-12 grid-cols-1 items-center">
               <div className="lg:col-span-6">
                 <div className="text-center lg:text-start mb-[50px] lg:mb-0">
                   <h6 className="text-black uppercase text-[14px] md:text-[16px] tracking-[2px] font-[600] mb-[20px] md:mb-[30px]">
