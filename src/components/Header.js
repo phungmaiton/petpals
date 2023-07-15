@@ -9,11 +9,11 @@ export default function Header() {
 
   return (
     <>
-      <header className="main-header fixed left-0 right-0 z-[111] container mx-auto px-4">
-        <div className="container flex items-center justify-between relative py-5 lg:py-3">
+      <header className="main-header fixed left-0 right-0 z-[111]">
+        <div className="container mx-auto px-10 flex items-center justify-between relative py-5 lg:py-3 ">
           <div className="logo">
             <NavLink to="/">
-              <img src="img/logo.png" title="Logo" alt="Logo" width="177px" />
+              <img src="/img/logo.png" title="Logo" alt="Logo" width="177px" />
             </NavLink>
           </div>
           <button
