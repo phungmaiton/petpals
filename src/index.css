@@ -35,7 +35,7 @@ code {
   @apply px-[20px];
 }
 .main-header .navbar li a {
-  @apply px-[10px] font-[600] uppercase tracking-[2px] relative leading-[35px] inline-block text-[#87AF73] text-[15px] cursor-pointer;
+  @apply px-[10px] font-[600] uppercase tracking-[2px] relative leading-[35px] inline-block text-[#373737] text-[15px] cursor-pointer;
 }
 .main-header .navbar li a:after {
   @apply content-[''] absolute left-[auto] right-[0] bottom-[0] ease-in duration-300 w-[0] h-[2px] bg-[#87AF73];
@@ -83,6 +83,81 @@ code {
   @apply bg-[#87AF73] text-white;
 }
 .px-btn-theme:hover {
-  @apply bg-[#343a40] text-white;
+  @apply bg-[#373737] ease-in text-white;
 }
 
+.px-btn-dark {
+  @apply bg-[#373737] text-white;
+}
+.px-btn-dark:hover {
+  @apply bg-[#87AF73] ease-in text-white;
+}
+
+/* Columns
+------------------------------*/
+.column-div {
+  @apply grid grid-cols-1 gap-8 lg:grid-cols-3 gap-12 items-center 
+}
+
+/* Cards
+------------------------------*/
+
+.card {
+  @apply items-center bg-white shadow-lg hover:shadow-xl p-8 rounded-lg ease-in duration-150
+}
+
+.card-img {
+  width: 100%;
+  height: 250px;
+  position: relative;
+  overflow: hidden;
+}
+
+.card-img img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Section
+------------------------------*/
+.section {
+  @apply py-[45px] md:py-[60px] lg:py-[100px];
+}
+
+.section-heading {
+  @apply pb-[30px] md:pb-[40px] lg:pb-[60px];
+}
+.section-heading h3 {
+  @apply text-[35px] md:text-[40px] lg:text-[50px] text-slate-900 font-[600] uppercase leading-[1.2];
+}
+
+/* Avatar 
+------------------------------*/
+
+.avatar {
+  border-radius: 50%;
+  width: 80px
+}
+
+/* Meetups 
+------------------------------*/
+
+.meetup-heading {
+  @apply bg-[#EFF2FF]
+}
+
+/* Backgrounds
+------------------------------*/
+
+.bg-blue {
+  @apply bg-[#EFF2FF]
+}
+
+.bg-green {
+ @apply bg-[#87AF73]
+}

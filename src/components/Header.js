@@ -35,15 +35,34 @@ export default function Header() {
                 <NavLink to="/pets">Pets</NavLink>
               </li>
               <li>
-                <NavLink to="/Meetups">Meetups</NavLink>
+                <NavLink to="/meetups">Meetups</NavLink>
               </li>
+              {isOpenMenu && (
+                <div className="lg:flex pr-[10px]">
+                  <NavLink className="px-btn px-btn-dark" to="login">
+                    Login
+                  </NavLink>
+                </div>
+              )}
+              {isOpenMenu && (
+                <div className="pt-2 lg:flex pr-[10px]">
+                  <NavLink className="px-btn px-btn-theme" to="signup">
+                    Signup
+                  </NavLink>
+                </div>
+              )}
             </ul>
           </div>
-          {/* <div className="ms-auto hidden lg:flex">
+          <div className="ms-auto hidden lg:flex pr-[10px]">
+            <NavLink className="px-btn px-btn-dark" to="login">
+              Login
+            </NavLink>
+          </div>
+          <div className="ms-auto hidden lg:flex">
             <NavLink className="px-btn px-btn-theme" to="signup">
               Signup
             </NavLink>
-          </div> */}
+          </div>
         </div>
       </header>
     </>
