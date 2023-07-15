@@ -8,25 +8,22 @@ export default function Banner() {
     <>
       <section
         id="home"
-        className="pt-[120px] pb-[80px] lg:pt-[180px] lg:pb-[100px] bg-blue relative overflow-hidden"
+        className="pt-[120px] pb-[80px] lg:pt-[170px] lg:pb-[100px] bg-blue relative overflow-hidden"
       >
         <div className="container mx-auto px-8">
           <div className="container relative z-[1]">
             <div className="grid gap-9 lg:grid-cols-12 grid-cols-1 items-center">
               <div className="lg:col-span-6">
                 <div className="text-center lg:text-start mb-[50px] lg:mb-0">
-                  <h6 className="text-black uppercase text-[14px] md:text-[16px] tracking-[2px] font-[600] mb-[20px] md:mb-[30px]">
-                    Hi Katherine
-                  </h6>
-                  <h1 className="text-black font-[600] text-[40px] lg:text-[60px] xl:text-[64px] leading-[1] mb-[25px] md:mb-[32px]">
-                    Can you write something here?
+                  <h1 className="text-[#373737] font-[600] text-[40px] lg:text-[60px] xl:text-[64px] leading-[1] mb-[25px] md:mb-[32px]">
+                    Find the perfect playmates for your pets.
                   </h1>
-                  <p className="text-[16px] md:text-[20px] mb-[8px] md:mb-[16px]">
-                    🐶🐱🐰
-                  </p>
-                  <div className="pt-[10px]">
+                  <h6 className="text-[#373737] text-[14px] md:text-[16px] tracking-[2px] font-[600] mb-[20px] md:mb-[30px]">
+                    Our furry friends need friends, too. That's why we made PetPals - a platform that brings local pet owners together. 
+                  </h6>
+                  <div>
                     <NavLink className="px-btn px-btn-theme " to="/meetups">
-                      Find Meetups
+                      Find Meetups In Your Area
                     </NavLink>
                   </div>
                 </div>
