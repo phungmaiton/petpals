@@ -93,6 +93,9 @@ code {
   @apply bg-[#87AF73] ease-in text-white;
 }
 
+.button-group {
+  @apply flex items-center justify-center relative pt-10
+}
 /* Columns
 ------------------------------*/
 .column-div {
@@ -151,6 +154,38 @@ code {
   @apply bg-[#EFF2FF]
 }
 
+.meetup-cover {
+  width: 100%;
+  height: 300px;
+  position: relative;
+  overflow: hidden;
+}
+
+.meetup-cover img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.meetup-info {
+  @apply items-center bg-white shadow-lg p-8 rounded-lg ease-in duration-150 min-h-[150px]
+}
+
+.attendee-list {
+  @apply items-center bg-white shadow-lg p-8 rounded-lg ease-in duration-150 my-5
+}
+
+.attendees {
+  @apply mr-5
+}
+
+.chat {
+  @apply items-center bg-white shadow-lg p-8 rounded-lg ease-in duration-150 my-5
+}
 /* Backgrounds
 ------------------------------*/
 
