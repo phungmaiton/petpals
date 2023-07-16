@@ -11,8 +11,9 @@ export default function Meetups() {
             <div className="card" style={{ width: "100%" }}>
               <div className="card-img">
                 <img
-                  src="https://hips.hearstapps.com/hmg-prod/images/cute-cat-photos-1593441022.jpg?crop=1.00xw:0.753xh;0,0.153xh&resize=1200:*"
-                  alt="..."
+                  src="img/small_meeting_placeholder.png"
+                  className="card-img"
+                  alt="Placeholder image"
                 />
               </div>
               <div className="card-body">
@@ -29,9 +30,9 @@ export default function Meetups() {
             <div className="card" style={{ width: "100%" }}>
               <div className="card-img">
                 <img
-                  src="https://t4.ftcdn.net/jpg/02/66/72/41/360_F_266724172_Iy8gdKgMa7XmrhYYxLCxyhx6J7070Pr8.jpg"
+                  src="img/small_meeting_placeholder.png"
                   className="card-img"
-                  alt="..."
+                  alt="Placeholder image"
                 />
               </div>
               <div className="card-body">
@@ -48,9 +49,9 @@ export default function Meetups() {
             <div className="card" style={{ width: "100%" }}>
               <div className="card-img">
                 <img
-                  src="https://hips.hearstapps.com/hmg-prod/images/cute-cat-photos-1593441022.jpg?crop=1.00xw:0.753xh;0,0.153xh&resize=1200:*"
+                  src="img/small_meeting_placeholder.png"
                   className="card-img"
-                  alt="..."
+                  alt="Placeholder image"
                 />
               </div>
               <div className="card-body">

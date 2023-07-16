@@ -76,21 +76,21 @@ code {
 /* Buttons
 ------------------------------*/
 .px-btn {
-  @apply rounded-md px-[20px] py-[10px] text-[14px] uppercase tracking-[2px] font-[500] inline-block ease-in duration-300 cursor-pointer;
+  @apply rounded-md px-[20px] py-[8px] text-[14px] uppercase tracking-[2px] font-[500] inline-block ease-in duration-300 cursor-pointer;
 }
 
 .px-btn-theme {
-  @apply bg-[#87AF73] text-white;
+  @apply bg-[#87AF73] font-bold text-white border-2 border-[#87AF73];
 }
 .px-btn-theme:hover {
-  @apply bg-[#373737] ease-in text-white;
+  @apply bg-white ease-in font-bold text-[#87AF73] border-2 border-[#87AF73];
 }
 
 .px-btn-dark {
-  @apply bg-[#373737] text-white;
+  @apply bg-[#373737] font-bold text-white border-2 border-[#373737];
 }
 .px-btn-dark:hover {
-  @apply bg-[#87AF73] ease-in text-white;
+  @apply bg-white ease-in font-bold text-[#373737] border-2 border-[#373737];
 }
 
 .button-group {
