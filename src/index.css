@@ -78,6 +78,15 @@ button {
   }
 }
 
+.nav-icon {
+  font-size: 15px;
+  color:#87AF73;
+  margin-bottom: 5px;
+}
+
+.nav-icon:hover {
+  @apply ease-in text-[#373737] 
+}
 /* Buttons
 ------------------------------*/
 .px-btn {
@@ -158,6 +167,14 @@ button {
 .avatar {
   border-radius: 50%;
   width: 80px
+}
+.nav-avatar {
+  border-radius: 50%;
+  width: 50px; 
+}
+
+nav-avatar:hover {
+  @apply cursor-pointer
 }
 
 /* Meetups 
