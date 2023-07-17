@@ -221,7 +221,11 @@ button {
 }
 
 .form {
-  @apply px-[30%]
+  @apply px-[10%] bg-white py-[8%] mx-[20%] rounded-lg
+}
+
+.form-instruction {
+  @apply font-[600] text-xl
 }
 
 .error {
