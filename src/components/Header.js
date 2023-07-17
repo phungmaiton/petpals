@@ -56,8 +56,8 @@ export default function Header({ user, setUser }) {
             {user && (
               <>
                 <div className="ms-auto hidden lg:flex pr-[10px]">
-                  <NavLink className="px-btn px-btn-theme" to="/edit">
-                    Edit Profile
+                  <NavLink className="px-btn px-btn-theme" to="/dashboard">
+                    Dashboard
                   </NavLink>
                 </div>
                 <div className="ms-auto hidden lg:flex">

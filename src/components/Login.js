@@ -5,7 +5,7 @@ export default function Login({ onLogin }) {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [errors, setErrors] = useState([]);
+  const [errorMessage, setErrorMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   function handleSubmit(e) {
@@ -25,7 +25,7 @@ export default function Login({ onLogin }) {
           navigate("/"); // Redirect to the homepage
         });
       } else {
-        r.json().then((err) => setErrors(err.errors));
+        r.json().then((err) => setErrorMessage(err.error));
       }
     });
   }
@@ -65,11 +65,9 @@ export default function Login({ onLogin }) {
               {isLoading ? "Loading..." : "Login"}
             </button>
           </div>
-          {/* <div>
-            {errors.map((err) => (
-              <span key={err}>{err}</span>
-            ))}
-          </div> */}
+          <div>
+            {errorMessage && <div className="error">{errorMessage}</div>}
+          </div>
         </form>
       </div>
     </section>
