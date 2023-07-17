@@ -18,7 +18,7 @@ export default function Banner() {
                   <h1 className="text-[#373737] font-[600] text-[40px] lg:text-[60px] xl:text-[64px] leading-[1] mb-[25px] md:mb-[32px]">
                     Find the perfect playmates for your pets.
                   </h1>
-                  <h6 className="text-[#373737] text-[14px] md:text-[16px] tracking-[2px] font-[600] mb-[20px] md:mb-[30px]">
+                  <h6 className="text-[#373737] text-[15px] md:text-[16px] tracking-[2px] font-[600] mb-[20px] md:mb-[30px]">
                     Our furry friends need friends, too. That's why we made PetPals - a platform that brings local pet owners together. 
                   </h6>
                   <div>

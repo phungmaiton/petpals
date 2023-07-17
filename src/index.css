@@ -1,11 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Overpass&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Manrope&display=swap');
 
 body {
   margin: 0;
   padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -76,7 +78,7 @@ code {
 /* Buttons
 ------------------------------*/
 .px-btn {
-  @apply rounded-md px-[20px] py-[8px] text-[14px] uppercase tracking-[2px] font-[500] inline-block ease-in duration-300 cursor-pointer;
+  @apply rounded-md px-[20px] py-[8px] pb-[6px] text-[14px] font-['Overpass'] uppercase tracking-[2px] font-[500] inline-block ease-in duration-300 cursor-pointer;
 }
 
 .px-btn-theme {
