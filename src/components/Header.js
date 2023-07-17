@@ -1,12 +1,25 @@
 import { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 /*--------------------
 * Header
 ----------------------*/
-export default function Header() {
-  const [isOpenMenu, setIsOpenMenu] = useState(false);
 
+export default function Header({ user, setUser }) {
+  const [isOpenMenu, setIsOpenMenu] = useState(false);
+  const navigate = useNavigate();
+  function handleLogoutClick() {
+    fetch("/logout", { method: "DELETE" })
+      .then((r) => {
+        if (r.ok) {
+          setUser(null);
+          navigate("/");
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
   return (
     <>
       <header className="main-header fixed left-0 right-0 z-[111]">
@@ -37,32 +50,41 @@ export default function Header() {
               <li>
                 <NavLink to="/meetups">Meetups</NavLink>
               </li>
-              {isOpenMenu && (
-                <div className="lg:flex pr-[10px]">
-                  <NavLink className="px-btn px-btn-dark" to="login">
-                    Login
-                  </NavLink>
-                </div>
-              )}
-              {isOpenMenu && (
-                <div className="pt-2 lg:flex pr-[10px]">
-                  <NavLink className="px-btn px-btn-theme" to="signup">
-                    Signup
-                  </NavLink>
-                </div>
-              )}
             </ul>
           </div>
-          <div className="ms-auto hidden lg:flex pr-[10px]">
-            <NavLink className="px-btn px-btn-dark" to="login">
-              Login
-            </NavLink>
-          </div>
-          <div className="ms-auto hidden lg:flex">
-            <NavLink className="px-btn px-btn-theme" to="signup">
-              Signup
-            </NavLink>
-          </div>
+          <>
+            {user && (
+              <>
+                <div className="ms-auto hidden lg:flex pr-[10px]">
+                  <NavLink className="px-btn px-btn-theme" to="/edit">
+                    Edit Profile
+                  </NavLink>
+                </div>
+                <div className="ms-auto hidden lg:flex">
+                  <NavLink
+                    className="px-btn px-btn-dark"
+                    onClick={handleLogoutClick}
+                  >
+                    Logout
+                  </NavLink>
+                </div>
+              </>
+            )}
+          </>
+          {!user && (
+            <>
+              <div className="ms-auto hidden lg:flex pr-[10px]">
+                <NavLink className="px-btn px-btn-dark" to="/login">
+                  Login
+                </NavLink>
+              </div>
+              <div className="ms-auto hidden lg:flex">
+                <NavLink className="px-btn px-btn-theme" to="/signup">
+                  Signup
+                </NavLink>
+              </div>
+            </>
+          )}
         </div>
       </header>
     </>
