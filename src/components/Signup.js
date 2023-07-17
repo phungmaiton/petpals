@@ -4,15 +4,15 @@ import { useNavigate } from "react-router-dom";
 export default function Signup({ onLogin }) {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
   const [profile_pic, setProfilePic] = useState("");
-  const [errors, setErrors] = useState([]);
+  const [errorMessage, setErrorMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   function handleSubmit(e) {
     e.preventDefault();
-    setErrors([]);
     setIsLoading(true);
     fetch("/signup", {
       method: "POST",
@@ -23,6 +23,7 @@ export default function Signup({ onLogin }) {
         username,
         password,
         password_confirmation: passwordConfirmation,
+        email: email,
         profile_pic: profile_pic,
       }),
     })
@@ -34,10 +35,7 @@ export default function Signup({ onLogin }) {
             navigate("/"); // Redirect to the homepage
           });
         } else {
-          r.json().then((err) => {
-            console.log(err);
-            setErrors(err.errors);
-          });
+          r.json().then((err) => setErrorMessage(err.error));
         }
       })
       .catch((error) => {
@@ -89,6 +87,19 @@ export default function Signup({ onLogin }) {
             />
           </div>
           <div>
+            <label htmlFor="email" className="form-label">
+              Email Address
+            </label>
+            <input
+              type="email"
+              id="email"
+              className="form-control"
+              autoComplete="off"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
+          <div>
             <label htmlFor="profile_pic" className="form-label">
               Profile Image
             </label>
@@ -105,11 +116,9 @@ export default function Signup({ onLogin }) {
               {isLoading ? "Loading..." : "Sign Up"}
             </button>
           </div>
-          {/* <div>
-            {errors.map((err) => (
-              <span key={err}>{err}</span>
-            ))}
-          </div> */}
+          <div>
+            {errorMessage && <div className="error">{errorMessage}</div>}
+          </div>
         </form>
       </div>
     </section>

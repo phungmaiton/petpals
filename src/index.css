@@ -91,11 +91,19 @@ button {
   @apply bg-white ease-in font-bold text-[#87AF73] border-2 border-[#87AF73];
 }
 
+.px-btn-theme:focus {
+  @apply bg-[#87AF73] font-bold text-white border-2 border-[#87AF73];
+}
+
 .px-btn-dark {
   @apply bg-[#373737] font-bold text-white border-2 border-[#373737];
 }
 .px-btn-dark:hover {
-  @apply bg-white ease-in font-bold text-[#373737] border-2 border-[#373737];
+  @apply bg-white ease-in font-bold text-[#87AF73] border-2 border-[#87AF73];
+}
+
+.px-btn-dark:focus {
+  @apply bg-[#373737] font-bold text-white border-2 border-[#373737];
 }
 
 .button-group {
@@ -216,3 +224,6 @@ button {
   @apply px-[30%]
 }
 
+.error {
+  @apply py-3 text-[#FF0000]
+}
