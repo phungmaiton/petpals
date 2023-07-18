@@ -39,7 +39,7 @@ export default function MeetUpByID() {
             {/* EVENT INFO 
             ----------------*/}
             <div className="lg:col-span-4 text-left mb-[50px] lg:mb-0 lg:ml-[10%] items-center">
-              <div className="min-h-[0px]">
+              <div className="min-h-[300px]">
                 <div className="meetup-info">
                   <ul>
                     <li>
