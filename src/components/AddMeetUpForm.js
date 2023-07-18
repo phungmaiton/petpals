@@ -9,6 +9,7 @@ import "react-clock/dist/Clock.css";
 import * as yup from "yup";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from "react-router-dom";
 
 const failureAlert = () => {
   toast.warning("Failed to create meetup.", {
@@ -36,7 +37,8 @@ const successAlert = () => {
   });
 };
 
-export default function AddMeetUpForm({ user }) {
+export default function AddMeetUpForm({ user, meetups, setMeetups }) {
+  const navigate = useNavigate();
   const countries = useMemo(() => countryList().getData(), []);
   const [isLoading, setIsLoading] = useState(false);
   const [pets, setPets] = useState(user && user.pets ? user.pets : []);
@@ -58,6 +60,7 @@ export default function AddMeetUpForm({ user }) {
     initialValues: {
       user_id: user.id,
       pet_id: pets.length > 0 ? pets[0].id.toString() : "",
+      title: "",
       venue: "",
       street_address: "",
       city: "",
@@ -65,6 +68,8 @@ export default function AddMeetUpForm({ user }) {
       country: "",
       date: new Date(),
       time: "10:00",
+      image: "",
+      details: "",
     },
     onSubmit: (values) => {
       const data = {
@@ -77,6 +82,9 @@ export default function AddMeetUpForm({ user }) {
         country: values.country,
         date: values.date.toISOString(),
         time: values.time,
+        image: values.image,
+        title: values.title,
+        details: values.details,
       };
 
       console.log(data);
@@ -133,6 +141,32 @@ export default function AddMeetUpForm({ user }) {
           <p className="error"> {formik.errors.pet_id}</p>
         </div>
         <div>
+          <label className="form-label">Title</label>
+          <input
+            name="title"
+            id="title"
+            placeholder="Give your meetup a cool name"
+            className="form-control"
+            type="text"
+            onChange={formik.handleChange}
+            value={formik.values.title}
+          />
+          <p className="error"> {formik.errors.venue}</p>
+        </div>
+        <div>
+          <label className="form-label">Details</label>
+          <textarea
+            name="details"
+            id="details"
+            placeholder=""
+            className="form-control"
+            type="text"
+            onChange={formik.handleChange}
+            value={formik.values.details}
+          />
+          <p className="error"> {formik.errors.venue}</p>
+        </div>
+        <div>
           <label className="form-label">Venue Name</label>
           <input
             name="venue"
@@ -157,29 +191,31 @@ export default function AddMeetUpForm({ user }) {
           />
           <p className="error"> {formik.errors.street_address}</p>
         </div>
-        <div>
-          <label className="form-label">City</label>
-          <input
-            name="city"
-            id="city"
-            className="form-control"
-            type="text"
-            onChange={formik.handleChange}
-            value={formik.values.city}
-          />
-          <p className="error"> {formik.errors.city}</p>
-        </div>
-        <div>
-          <label className="form-label">State</label>
-          <input
-            name="state"
-            id="state"
-            className="form-control"
-            type="text"
-            onChange={formik.handleChange}
-            value={formik.values.state}
-          />
-          <p className="error"> {formik.errors.state}</p>
+        <div className="grid grid-cols-2 gap-2">
+          <div className="col-span-1">
+            <label className="form-label">City</label>
+            <input
+              name="city"
+              id="city"
+              className="form-control"
+              type="text"
+              onChange={formik.handleChange}
+              value={formik.values.city}
+            />
+            <p className="error"> {formik.errors.city}</p>
+          </div>
+          <div className="col-span-1">
+            <label className="form-label">State</label>
+            <input
+              name="state"
+              id="state"
+              className="form-control"
+              type="text"
+              onChange={formik.handleChange}
+              value={formik.values.state}
+            />
+            <p className="error"> {formik.errors.state}</p>
+          </div>
         </div>
         <div>
           <label className="form-label">Country</label>
@@ -225,6 +261,18 @@ export default function AddMeetUpForm({ user }) {
             </div>
             <p className="error"> {formik.errors.time}</p>
           </div>
+        </div>
+        <div>
+          <label className="form-label">Image</label>
+          <input
+            name="image"
+            id="image"
+            className="form-control"
+            type="text"
+            onChange={formik.handleChange}
+            value={formik.values.image}
+          />
+          <p className="error"> {formik.errors.image}</p>
         </div>
 
         <div>
