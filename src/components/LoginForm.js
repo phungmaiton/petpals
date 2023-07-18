@@ -18,6 +18,7 @@ export default function LoginForm({ onLogin }) {
       },
       body: JSON.stringify({ username, password }),
     }).then((r) => {
+      console.log(username);
       setIsLoading(false);
       if (r.ok) {
         r.json().then((user) => {

@@ -13,6 +13,7 @@ import AddMeetUp from "./components/AddMeetUp";
 function App() {
   const location = useLocation();
   const [user, setUser] = useState(null);
+  const [meetups, setMeetups] = useState([]);
 
   useEffect(() => {
     // auto-login
@@ -32,7 +33,11 @@ function App() {
       });
   }, []);
 
-  // if (!user) return <Login onLogin={setUser} />;
+  useEffect(() => {
+    fetch("/meetups")
+      .then((response) => response.json())
+      .then((meetups) => setMeetups(meetups));
+  }, []);
 
   return (
     <div>
@@ -40,12 +45,17 @@ function App() {
       <Routes locations={location} key={location.pathname}>
         <Route path="/" element={<Home />} />
         <Route path="/pets" element={<Pets />} />
-        <Route path="/meetups" element={<Meetups />} />
+        <Route path="/meetups" element={<Meetups meetups={meetups} />} />
         <Route path="/meetups/:id" element={<MeetUpByID />} />
         <Route path="/login" element={<Login onLogin={setUser} />} />
         <Route path="/signup" element={<Signup onLogin={setUser} />} />
         <Route path="/dashboard" element={<Dashboard user={user} />} />
-        <Route path="/add-meetup" element={<AddMeetUp user={user} />} />
+        <Route
+          path="/add-meetup"
+          element={
+            <AddMeetUp user={user} meetups={meetups} setMeetups={setMeetups} />
+          }
+        />
       </Routes>
     </div>
   );
