@@ -33,7 +33,7 @@ export default function Signup({ onLogin }) {
         if (r.ok) {
           r.json().then((user) => {
             onLogin(user);
-            navigate("/"); // Redirect to the homepage
+            navigate("/dashboard"); // Redirect to the dashboard
           });
         } else {
           r.json().then((err) => setErrorMessage(err.error));

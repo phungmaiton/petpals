@@ -245,6 +245,10 @@ nav-avatar:hover {
   @apply py-3 text-[#FF0000]
 }
 
+.react-time-picker__wrapper {
+  @apply w-full text-[16px] font-[400] leading-[1.5] text-slate-900 bg-white border border-solid border-slate-900 outline-none px-[12px] py-[9px] mb-2;
+}
+
 /* Dashboard
 ------------------------------*/
 
@@ -256,4 +260,12 @@ nav-avatar:hover {
 
 .dashboard-icon:hover {
   @apply ease-in text-[#373737] 
+}
+
+.dashboard-half {
+  @apply items-center bg-white shadow-lg hover:shadow-xl p-8 rounded-lg ease-in duration-150
+}
+
+.dashboard-full {
+  @apply items-center bg-white shadow-lg hover:shadow-xl p-8 rounded-lg ease-in duration-150
 }
