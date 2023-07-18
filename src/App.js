@@ -8,6 +8,7 @@ import Login from "./components/Login";
 import Signup from "./components/Signup";
 import Dashboard from "./components/Dashboard";
 import { useState, useEffect } from "react";
+import AddMeetUp from "./components/AddMeetUp";
 
 function App() {
   const location = useLocation();
@@ -44,6 +45,7 @@ function App() {
         <Route path="/login" element={<Login onLogin={setUser} />} />
         <Route path="/signup" element={<Signup onLogin={setUser} />} />
         <Route path="/dashboard" element={<Dashboard user={user} />} />
+        <Route path="/add-meetup" element={<AddMeetUp user={user} />} />
       </Routes>
     </div>
   );
