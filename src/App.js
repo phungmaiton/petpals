@@ -9,11 +9,13 @@ import Signup from "./components/Signup";
 import Dashboard from "./components/Dashboard";
 import { useState, useEffect } from "react";
 import AddMeetUp from "./components/AddMeetUp";
+import AddPet from "./components/AddPet";
 
 function App() {
   const location = useLocation();
   const [user, setUser] = useState(null);
   const [meetups, setMeetups] = useState([]);
+  const [pets, setPets] = useState([]);
 
   useEffect(() => {
     // auto-login
@@ -39,12 +41,18 @@ function App() {
       .then((meetups) => setMeetups(meetups));
   }, []);
 
+  useEffect(() => {
+    fetch("/pets")
+      .then((response) => response.json())
+      .then((pets) => setPets(pets));
+  }, []);
+
   return (
     <div>
       <Header user={user} setUser={setUser} />
       <Routes locations={location} key={location.pathname}>
         <Route path="/" element={<Home />} />
-        <Route path="/pets" element={<Pets />} />
+        <Route path="/pets" element={<Pets pets={pets} />} />
         <Route path="/meetups" element={<Meetups meetups={meetups} />} />
         <Route path="/meetups/:id" element={<MeetUpByID />} />
         <Route path="/login" element={<Login onLogin={setUser} />} />
@@ -54,6 +62,12 @@ function App() {
           path="/add-meetup"
           element={
             <AddMeetUp user={user} meetups={meetups} setMeetups={setMeetups} />
+          }
+        />
+        <Route
+          path="/add-pet"
+          element={
+            <AddPet user={user} pets={pets} setPets={setPets} />
           }
         />
       </Routes>
