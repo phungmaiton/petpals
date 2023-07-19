@@ -37,7 +37,12 @@ const successAlert = () => {
   });
 };
 
-export default function AddMeetUpForm({ user, onMeetupAdded }) {
+export default function AddMeetUpForm({
+  user,
+  onMeetupAdded,
+  onAttendeeChange,
+  meetups,
+}) {
   const navigate = useNavigate();
   const countries = useMemo(() => countryList().getData(), []);
   const [isLoading, setIsLoading] = useState(false);
@@ -56,6 +61,11 @@ export default function AddMeetUpForm({ user, onMeetupAdded }) {
   //     date: yup.string().required("Please select a date"),
   //     time: yup.string().required("Please select a time"),
   //   });
+
+  console.log(meetups);
+  const last_meetup_id = meetups.slice(-1)[0].id;
+  const newMeetupId = last_meetup_id + 1;
+  console.log(last_meetup_id);
   const formik = useFormik({
     initialValues: {
       user_id: user.id,
@@ -88,6 +98,10 @@ export default function AddMeetUpForm({ user, onMeetupAdded }) {
         details: values.details,
       };
 
+      const attendData = {
+        meetup_id: parseInt(newMeetupId),
+        attendee_id: parseInt(values.pet_id),
+      };
       console.log(data);
       fetch("/meetups", {
         method: "POST",
@@ -115,6 +129,26 @@ export default function AddMeetUpForm({ user, onMeetupAdded }) {
         .catch((errors) => {
           console.log("Errors", errors);
           failureAlert();
+        });
+
+      fetch("/meetup-attendees", {
+        method: "POST",
+        body: JSON.stringify(attendData),
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      })
+        .then((response) => response.json())
+        .then((response) => {
+          if (response.message === "successful") {
+            onAttendeeChange();
+          } else {
+            failureAlert();
+          }
+        })
+        .catch((errors) => {
+          console.log("Errors", errors);
         });
     },
   });

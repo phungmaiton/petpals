@@ -16,27 +16,30 @@ const failureAlert = () => {
   });
 };
 
-const successAlert = () => {
-  toast.success("Successfully attending.", {
-    position: "bottom-center",
-    autoClose: 4000,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: false,
-    progress: undefined,
-    theme: "light",
-  });
-};
 export default function AttendForm({
   closePopup,
   meetup_id,
   pets,
   setShowModal,
+  onAttendeeChange,
 }) {
   const [isLoading, setIsLoading] = useState(false);
+  const successAlert = () => {
+    toast.success("Successfully attending.", {
+      position: "bottom-center",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: false,
+      progress: undefined,
+      theme: "light",
+    });
+    setTimeout(() => {
+      setShowModal(false);
+    }, 3000);
+  };
 
-  console.log(pets);
   const formik = useFormik({
     initialValues: {
       meetup_id: meetup_id,
@@ -59,10 +62,10 @@ export default function AttendForm({
       })
         .then((response) => response.json())
         .then((response) => {
-          if (response.ok) {
-            formik.resetForm();
-            setShowModal(false);
+          if (response.message === "successful") {
             successAlert();
+            formik.resetForm();
+            onAttendeeChange();
           } else {
             failureAlert();
           }
@@ -111,6 +114,7 @@ export default function AttendForm({
           </button>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 }
