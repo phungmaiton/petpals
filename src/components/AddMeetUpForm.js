@@ -37,7 +37,12 @@ const successAlert = () => {
   });
 };
 
-export default function AddMeetUpForm({ user, meetups, setMeetups }) {
+export default function AddMeetUpForm({
+  user,
+  onMeetupAdded,
+  onAttendeeChange,
+  meetups,
+}) {
   const navigate = useNavigate();
   const countries = useMemo(() => countryList().getData(), []);
   const [isLoading, setIsLoading] = useState(false);
@@ -56,6 +61,11 @@ export default function AddMeetUpForm({ user, meetups, setMeetups }) {
   //     date: yup.string().required("Please select a date"),
   //     time: yup.string().required("Please select a time"),
   //   });
+
+  console.log(meetups);
+  const last_meetup_id = meetups.slice(-1)[0].id;
+  const newMeetupId = last_meetup_id + 1;
+  console.log(last_meetup_id);
   const formik = useFormik({
     initialValues: {
       user_id: user.id,
@@ -72,6 +82,7 @@ export default function AddMeetUpForm({ user, meetups, setMeetups }) {
       details: "",
     },
     onSubmit: (values) => {
+      setIsLoading(true);
       const data = {
         user_id: values.user_id,
         pet_id: parseInt(values.pet_id),
@@ -80,13 +91,17 @@ export default function AddMeetUpForm({ user, meetups, setMeetups }) {
         city: values.city,
         state: values.state,
         country: values.country,
-        date: values.date.toISOString(),
+        date: values.date.toISOString().slice(0, 10),
         time: values.time,
         image: values.image,
         title: values.title,
         details: values.details,
       };
 
+      const attendData = {
+        meetup_id: parseInt(newMeetupId),
+        attendee_id: parseInt(values.pet_id),
+      };
       console.log(data);
       fetch("/meetups", {
         method: "POST",
@@ -102,8 +117,10 @@ export default function AddMeetUpForm({ user, meetups, setMeetups }) {
           const message = response.message; // Extract the message value for success/failure indication
           console.log("Response message:", message);
           if (message === "Meetup created successfully.") {
+            setIsLoading(false);
             successAlert();
             formik.resetForm();
+            onMeetupAdded();
           } else {
             console.log("Failed to create meetup");
             failureAlert();
@@ -112,6 +129,26 @@ export default function AddMeetUpForm({ user, meetups, setMeetups }) {
         .catch((errors) => {
           console.log("Errors", errors);
           failureAlert();
+        });
+
+      fetch("/meetup-attendees", {
+        method: "POST",
+        body: JSON.stringify(attendData),
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      })
+        .then((response) => response.json())
+        .then((response) => {
+          if (response.message === "successful") {
+            onAttendeeChange();
+          } else {
+            failureAlert();
+          }
+        })
+        .catch((errors) => {
+          console.log("Errors", errors);
         });
     },
   });
