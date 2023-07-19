@@ -84,7 +84,10 @@ function App() {
     <div>
       <Header user={user} setUser={setUser} />
       <Routes locations={location} key={location.pathname}>
-        <Route path="/" element={<Home isLoading={isLoading} />} />
+        <Route
+          path="/"
+          element={<Home isLoading={isLoading} meetups={meetups} />}
+        />
         <Route path="/pets" element={<Pets isLoading={isLoading} />} />
         <Route
           path="/meetups"
@@ -118,7 +121,12 @@ function App() {
         <Route
           path="/add-meetup"
           element={
-            <AddMeetUp user={user} onMeetupAdded={handleRefreshMeetups} />
+            <AddMeetUp
+              user={user}
+              onMeetupAdded={handleRefreshMeetups}
+              onAttendeeChange={handleAttendeeChange}
+              meetups={meetups}
+            />
           }
         />
       </Routes>
