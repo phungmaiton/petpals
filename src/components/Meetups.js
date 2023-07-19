@@ -18,7 +18,6 @@ export default function Meetups({ meetups, isLoading, user, pets }) {
     return meetups.slice(indexOfFirstPost, indexOfLastPost);
   };
 
-  console.log(pets);
   return (
     <PageTransition>
       <section className="pt-[120px] pb-[80px] lg:pt-[180px] lg:pb-[100px] relative overflow-hidden">

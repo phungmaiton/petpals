@@ -139,7 +139,7 @@ export default function MeetUpByID({
                       <br />
                       {meetup.street_address}
                       <br />
-                      {meetup.city} {meetup.state}
+                      {meetup.city}, {meetup.state}
                       <br />
                       {meetup.country}
                     </li>
