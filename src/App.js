@@ -58,13 +58,11 @@ function App() {
   }, []);
 
   useEffect(() => {
-
     //katherine
-//     fetch("/pets")
-//       .then((response) => response.json())
-//       .then((pets) => setPets(pets));
-//   }, []);
-
+    //     fetch("/pets")
+    //       .then((response) => response.json())
+    //       .then((pets) => setPets(pets));
+    //   }, []);
 
     fetch("/meetup-attendees")
       .then((response) => response.json())
@@ -91,22 +89,18 @@ function App() {
       });
   }
 
-
   return (
     <div>
       <Header user={user} setUser={setUser} />
       <Routes locations={location} key={location.pathname}>
-// <<<<<<< katherine
-//         <Route path="/" element={<Home />} />
-//         <Route path="/pets" element={<Pets pets={pets} />} />
-//         <Route path="/meetups" element={<Meetups meetups={meetups} />} />
-//         <Route path="/meetups/:id" element={<MeetUpByID />} />
-
         <Route
           path="/"
           element={<Home isLoading={isLoading} meetups={meetups} />}
         />
-        <Route path="/pets" element={<Pets isLoading={isLoading} />} />
+        <Route
+          path="/pets"
+          element={<Pets isLoading={isLoading} pets={pets} />}
+        />
         <Route
           path="/meetups"
           element={
@@ -150,9 +144,7 @@ function App() {
         />
         <Route
           path="/add-pet"
-          element={
-            <AddPet user={user} pets={pets} setPets={setPets} />
-          }
+          element={<AddPet user={user} pets={pets} setPets={setPets} />}
         />
       </Routes>
     </div>
