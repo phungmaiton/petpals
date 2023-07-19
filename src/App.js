@@ -14,7 +14,9 @@ function App() {
   const location = useLocation();
   const [user, setUser] = useState(null);
   const [meetups, setMeetups] = useState([]);
-
+  const [pets, setPets] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [meetupAttendees, setMeetupAttendees] = useState([]);
   useEffect(() => {
     // auto-login
     fetch("/check_session")
@@ -34,26 +36,89 @@ function App() {
   }, []);
 
   useEffect(() => {
+    setIsLoading(true);
     fetch("/meetups")
       .then((response) => response.json())
-      .then((meetups) => setMeetups(meetups));
+      .then((meetups) => {
+        setMeetups(meetups);
+        setIsLoading(false);
+      });
   }, []);
+  useEffect(() => {
+    setIsLoading(true);
+    fetch("/pets")
+      .then((response) => response.json())
+      .then((pets) => {
+        setPets(pets);
+        setIsLoading(false);
+      });
+  }, []);
+
+  useEffect(() => {
+    fetch("/meetup-attendees")
+      .then((response) => response.json())
+      .then((ma) => {
+        setMeetupAttendees(ma);
+      });
+  }, []);
+
+  function handleRefreshMeetups() {
+    setIsLoading(true);
+    fetch("/meetups")
+      .then((response) => response.json())
+      .then((meetups) => {
+        setMeetups(meetups);
+        setIsLoading(false);
+      });
+  }
+
+  function handleAttendeeChange() {
+    fetch("/meetup-attendees")
+      .then((response) => response.json())
+      .then((ma) => {
+        setMeetupAttendees(ma);
+      });
+  }
 
   return (
     <div>
       <Header user={user} setUser={setUser} />
       <Routes locations={location} key={location.pathname}>
-        <Route path="/" element={<Home />} />
-        <Route path="/pets" element={<Pets />} />
-        <Route path="/meetups" element={<Meetups meetups={meetups} />} />
-        <Route path="/meetups/:id" element={<MeetUpByID />} />
+        <Route path="/" element={<Home isLoading={isLoading} />} />
+        <Route path="/pets" element={<Pets isLoading={isLoading} />} />
+        <Route
+          path="/meetups"
+          element={
+            <Meetups
+              meetups={meetups}
+              isLoading={isLoading}
+              user={user}
+              pets={pets}
+              meetupAttendees={meetupAttendees}
+            />
+          }
+        />
+        <Route
+          path="/meetups/:id"
+          element={
+            <MeetUpByID
+              user={user}
+              pet={pets}
+              meetupAttendees={meetupAttendees}
+              onAttendeeChange={handleAttendeeChange}
+            />
+          }
+        />
         <Route path="/login" element={<Login onLogin={setUser} />} />
         <Route path="/signup" element={<Signup onLogin={setUser} />} />
-        <Route path="/dashboard" element={<Dashboard user={user} />} />
+        <Route
+          path="/dashboard"
+          element={<Dashboard user={user} meetups={meetups} pets={pets} />}
+        />
         <Route
           path="/add-meetup"
           element={
-            <AddMeetUp user={user} meetups={meetups} setMeetups={setMeetups} />
+            <AddMeetUp user={user} onMeetupAdded={handleRefreshMeetups} />
           }
         />
       </Routes>

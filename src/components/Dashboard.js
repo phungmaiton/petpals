@@ -2,21 +2,52 @@ import PageTransition from "./PageTransition";
 import { NavLink } from "react-router-dom";
 import { useEffect, useState } from "react";
 
-export default function Dashboard({ user }) {
-  const [pets, setPets] = useState([]);
-  const [meetups, setMeetups] = useState([]);
+const RenderPets = ({ pets }) => {
+  return pets.map((pet) => (
+    <div className="attendees" key={pet.id}>
+      <img className="avatar mt-3 mb-2" src={pet.profile_pic} alt={pet.name} />
+      <h3>{pet.name}</h3>
+    </div>
+  ));
+};
 
-  useEffect(() => {
-    if (user && user.pets) {
-      setPets(user.pets);
-    }
-  }, [user.PageTransition]);
+const RenderMeetups = ({ meetups }) => {
+  return meetups.map((meetup) => (
+    <div
+      className="grid grid-cols-1 lg:grid-cols-4 gap-4 items-center py-10"
+      key={meetup.id}
+    >
+      <div className="col-span-1">
+        <img
+          src={
+            meetup.image ? meetup.image : "/img/large_meeting_placeholder.png"
+          }
+          className="card-img rounded-lg"
+        />
+      </div>
+      <div className="lg:col-span-3 ml-5">
+        <h2>{meetup.title}</h2>
+        <h3>Date: {meetup.date}</h3>
+        <h3>Time: {meetup.time}</h3>
+        <p>
+          {meetup.details.length > 200
+            ? meetup.details.substring(0, 200) + "..."
+            : meetup.details}
+        </p>
+        <NavLink to={`/meetups/${meetup.id}`}>
+          <button className="px-btn px-btn-theme">View Meetup</button>
+        </NavLink>
+      </div>
+    </div>
+  ));
+};
 
-  useEffect(() => {
-    if (user && user.meetups) {
-      setMeetups(user.meetups);
-    }
-  }, [user.meetups]);
+export default function Dashboard({ user, meetups, pets }) {
+  const user_pets = user ? pets.filter((pet) => pet.owner_id === user.id) : [];
+  const user_meetups = user
+    ? meetups.filter((meetup) => meetup.user_id === user.id)
+    : [];
+
   return (
     <PageTransition>
       {user && (
@@ -37,8 +68,8 @@ export default function Dashboard({ user }) {
                   {/* Personal Info
                   ------------------------------*/}
                   <div className="lg:col-span-6 text-left mb-[50px] lg:mb-0 dashboard-half">
-                    <div class="grid grid-cols-4 gap-4">
-                      <div class="col-span-3">
+                    <div className="grid grid-cols-4 gap-4">
+                      <div className="col-span-3">
                         <h2>Personal Information</h2>
                       </div>
                       <div className="lg:col-span-1 text-right mb-[50px] lg:mb-0 lg:ml-[10%] flex justify-end items-top">
@@ -53,14 +84,14 @@ export default function Dashboard({ user }) {
                           >
                             <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
                             <path
-                              fill-rule="evenodd"
+                              fillRule="evenodd"
                               d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"
                             />
                           </svg>
                           <p>Edit</p>
                         </div>
                       </div>
-                      <div class="col-span-4">
+                      <div className="col-span-4">
                         <p>Username: {user.username}</p>
                         <p>Email: {user.email}</p>
                         <p>Password: ***</p>
@@ -114,27 +145,19 @@ export default function Dashboard({ user }) {
                           >
                             <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
                             <path
-                              fill-rule="evenodd"
+                              fillRule="evenodd"
                               d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"
                             />
                           </svg>
                           <p>Edit</p>
                         </div>
                       </div>
-                      <div class="col-span-4">
+                      <div className="col-span-4">
                         {pets.length === 0 ? (
                           <div>You currently have no pets</div>
                         ) : (
                           <div className="flex text-center">
-                            {pets.map((pet) => (
-                              <div className="attendees">
-                                <img
-                                  className="avatar mt-3 mb-2"
-                                  src={pet.profile_pic}
-                                />
-                                <h3>{pet.name}</h3>
-                              </div>
-                            ))}
+                            <RenderPets pets={user_pets} />
                           </div>
                         )}
                       </div>
@@ -152,7 +175,6 @@ export default function Dashboard({ user }) {
                         <h2>Your Meetups</h2>
                       </div>
                       <div className="lg:col-span-1 text-right mb-[50px] lg:mb-0 lg:ml-[10%] flex justify-end items-top">
-
                         <NavLink to="/add-meetup">
                           <div className="flex flex-col items-center spacy-y-1.5 relative text-xs ml-3">
                             <svg
@@ -195,7 +217,7 @@ export default function Dashboard({ user }) {
                           >
                             <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
                             <path
-                              fill-rule="evenodd"
+                              fillRule="evenodd"
                               d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"
                             />
                           </svg>
@@ -210,32 +232,7 @@ export default function Dashboard({ user }) {
                         </div>
                       </div>
                     ) : (
-                      meetups.map((meetup) => (
-                        <div
-                          className="grid grid-cols-4 gap-4 items-center py-10"
-                          key={meetup.id}
-                        >
-                          <div className="col-span-1">
-                            <img
-                              src={
-                                meetup.image
-                                  ? meetup.image
-                                  : "/img/large_meeting_placeholder.png"
-                              }
-                              className="card-img rounded-lg"
-                            />
-                          </div>
-                          <div className="col-span-3 ml-5">
-                            <h2>{meetup.title}</h2>
-                            <h3>Date: {meetup.date}</h3>
-                            <h3>Time: {meetup.time}</h3>
-                            <p>{meetup.details.substring(0, 200) + "..."}</p>
-                            <button className="px-btn px-btn-theme">
-                              View Meetup
-                            </button>
-                          </div>
-                        </div>
-                      ))
+                      <RenderMeetups meetups={user_meetups} />
                     )}
                   </div>
                 </div>

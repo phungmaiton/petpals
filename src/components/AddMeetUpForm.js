@@ -37,7 +37,7 @@ const successAlert = () => {
   });
 };
 
-export default function AddMeetUpForm({ user, meetups, setMeetups }) {
+export default function AddMeetUpForm({ user, onMeetupAdded }) {
   const navigate = useNavigate();
   const countries = useMemo(() => countryList().getData(), []);
   const [isLoading, setIsLoading] = useState(false);
@@ -72,6 +72,7 @@ export default function AddMeetUpForm({ user, meetups, setMeetups }) {
       details: "",
     },
     onSubmit: (values) => {
+      setIsLoading(true);
       const data = {
         user_id: values.user_id,
         pet_id: parseInt(values.pet_id),
@@ -80,7 +81,7 @@ export default function AddMeetUpForm({ user, meetups, setMeetups }) {
         city: values.city,
         state: values.state,
         country: values.country,
-        date: values.date.toISOString(),
+        date: values.date.toISOString().slice(0, 10),
         time: values.time,
         image: values.image,
         title: values.title,
@@ -102,8 +103,10 @@ export default function AddMeetUpForm({ user, meetups, setMeetups }) {
           const message = response.message; // Extract the message value for success/failure indication
           console.log("Response message:", message);
           if (message === "Meetup created successfully.") {
+            setIsLoading(false);
             successAlert();
             formik.resetForm();
+            onMeetupAdded();
           } else {
             console.log("Failed to create meetup");
             failureAlert();
