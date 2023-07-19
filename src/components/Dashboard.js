@@ -1,6 +1,22 @@
 import PageTransition from "./PageTransition";
+import { NavLink } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 export default function Dashboard({ user }) {
+  const [pets, setPets] = useState([]);
+  const [meetups, setMeetups] = useState([]);
+
+  useEffect(() => {
+    if (user && user.pets) {
+      setPets(user.pets);
+    }
+  }, [user.PageTransition]);
+
+  useEffect(() => {
+    if (user && user.meetups) {
+      setMeetups(user.meetups);
+    }
+  }, [user.meetups]);
   return (
     <PageTransition>
       {user && (
@@ -106,10 +122,20 @@ export default function Dashboard({ user }) {
                         </div>
                       </div>
                       <div class="col-span-4">
-                        {user.pets.length === 0 ? (
+                        {pets.length === 0 ? (
                           <div>You currently have no pets</div>
                         ) : (
-                          <div>{/* we'll render pets here */}</div>
+                          <div className="flex text-center">
+                            {pets.map((pet) => (
+                              <div className="attendees">
+                                <img
+                                  className="avatar mt-3 mb-2"
+                                  src={pet.profile_pic}
+                                />
+                                <h3>{pet.name}</h3>
+                              </div>
+                            ))}
+                          </div>
                         )}
                       </div>
                     </div>
@@ -121,25 +147,29 @@ export default function Dashboard({ user }) {
                   {/* Meetup info
                   ------------------------------*/}
                   <div className="lg:col-span-12 text-left mb-[50px] lg:mb-0 dashboard-full">
-                    <div class="grid grid-cols-4 gap-4">
-                      <div class="col-span-3">
+                    <div className="grid grid-cols-4 gap-4">
+                      <div className="col-span-3">
                         <h2>Your Meetups</h2>
                       </div>
                       <div className="lg:col-span-1 text-right mb-[50px] lg:mb-0 lg:ml-[10%] flex justify-end items-top">
-                        <div className="flex flex-col items-center spacy-y-1.5 relative text-xs ml-3">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="16"
-                            height="16"
-                            fill="currentColor"
-                            className="bi bi-plus-square dashboard-icon cursor-pointer"
-                            viewBox="0 0 16 16"
-                          >
-                            <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z" />
-                            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
-                          </svg>
-                          <p>Add</p>
-                        </div>
+
+                        <NavLink to="/add-meetup">
+                          <div className="flex flex-col items-center spacy-y-1.5 relative text-xs ml-3">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="16"
+                              height="16"
+                              fill="currentColor"
+                              className="bi bi-plus-square dashboard-icon cursor-pointer"
+                              viewBox="0 0 16 16"
+                            >
+                              <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z" />
+                              <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
+                            </svg>
+                            <p>Add</p>
+                          </div>
+                        </NavLink>
+
                         <div className="flex flex-col items-center spacy-y-1.5 relative text-xs ml-3">
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -172,14 +202,41 @@ export default function Dashboard({ user }) {
                           <p>Edit</p>
                         </div>
                       </div>
-                      <div class="col-span-4">
-                        {user.meetups.length === 0 ? (
-                          <div>You currently have no meetups</div>
-                        ) : (
-                          <div>{/* we'll render pets here */}</div>
-                        )}
-                      </div>
                     </div>
+                    {meetups.length === 0 ? (
+                      <div className="grid grid-cols-4 gap-4">
+                        <div className="col-span-3">
+                          <div>You currently have no meetups</div>
+                        </div>
+                      </div>
+                    ) : (
+                      meetups.map((meetup) => (
+                        <div
+                          className="grid grid-cols-4 gap-4 items-center py-10"
+                          key={meetup.id}
+                        >
+                          <div className="col-span-1">
+                            <img
+                              src={
+                                meetup.image
+                                  ? meetup.image
+                                  : "/img/large_meeting_placeholder.png"
+                              }
+                              className="card-img rounded-lg"
+                            />
+                          </div>
+                          <div className="col-span-3 ml-5">
+                            <h2>{meetup.title}</h2>
+                            <h3>Date: {meetup.date}</h3>
+                            <h3>Time: {meetup.time}</h3>
+                            <p>{meetup.details.substring(0, 200) + "..."}</p>
+                            <button className="px-btn px-btn-theme">
+                              View Meetup
+                            </button>
+                          </div>
+                        </div>
+                      ))
+                    )}
                   </div>
                 </div>
               </div>
