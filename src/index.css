@@ -137,6 +137,15 @@ button {
   object-fit: cover;
 }
 
+.pet-card-name {
+  align-items: center;
+  font-size: 20px;
+  font-weight: 600;
+  display: flex;
+  justify-content: center;
+  padding-top: 10px;
+}
+
 /* .card-img img {
   position: absolute;
   top: 50%;
