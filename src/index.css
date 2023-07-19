@@ -97,7 +97,7 @@ button {
   @apply bg-[#87AF73] font-bold text-white border-2 border-[#87AF73];
 }
 .px-btn-theme:hover {
-  @apply bg-white ease-in font-bold text-[#87AF73] border-2 border-[#87AF73];
+  @apply bg-[#F6F9F5] ease-in font-bold text-[#79A663] border-2 border-[#87AF73];
 }
 
 .px-btn-theme:focus {
