@@ -25,6 +25,15 @@ export default function Meetups({ meetups, isLoading, user, pets, onLogin }) {
     <PageTransition>
       <section className="pt-[150px] pb-[20px] lg:pt-[150px] lg:pb-[50px] bg-blue relative overflow-hidden">
         <div className="container mx-auto px-10">
+//<<<<<<< katherine
+//           <div>
+//             <h1 className="text-[#373737] font-[600] text-[30px] lg:text-[35px] xl:text-[40px] leading-[1] mb-[25px] md:mb-[32px] px-3 flex items-center justify-center">
+//               Explore Meetups
+//             </h1>
+//             <h4 className="text-[#424040] font-[580] text-[10px] lg:text-[20px] xl:text-[25px] leading-[1] mb-[25px] md:mb-[32px] px-3 flex items-center justify-center">
+//               Click on a meetup to check out the details and sign your pet up to attend.
+//             </h4>
+// main=======
           <div className="grid gril-cols-2 md:grid-cols-3 items-center">
             <div className="col-span-1 md:col-span-2">
               <h1 className="text-[#373737] font-[600] text-[30px] lg:text-[35px] xl:text-[40px] leading-[1] mb-[25px] md:mb-[32px] px-3">
@@ -38,6 +47,7 @@ export default function Meetups({ meetups, isLoading, user, pets, onLogin }) {
                 </NavLink>
               )}
             </div>
+//>>>>>>> main
           </div>
         </div>
       </section>
