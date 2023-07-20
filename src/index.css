@@ -158,6 +158,10 @@ button {
 .card-title {
   @apply font-[600] text-xl py-3
 }
+
+.pin {
+  color:#87AF73;
+}
 /* Section
 ------------------------------*/
 .section {
@@ -342,9 +346,13 @@ h1 {
 
 
 h2 {
-  @apply font-[700] text-[30px]
+  @apply font-[700] text-[30px] leading-[60px]
 }
 
 h3 {
-  @apply font-[600] text-[20px] leading-[40px]
+  @apply font-[600] text-[20px] leading-[30px]
+}
+
+h4 {
+  @apply font-[600] text-[17px] leading-[25px]
 }

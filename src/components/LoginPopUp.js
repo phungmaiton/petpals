@@ -93,6 +93,12 @@ export default function LoginPopup({ closePopup, setShowModal, onLogin }) {
                 {isLoading ? "Loading..." : "Login"}
               </button>
             </div>
+            <div className="pt-5">
+              Not a user?{" "}
+              <a className="text-[#87AF73] font-[700]" href="/signup">
+                Sign up here.
+              </a>
+            </div>
             <div>
               {errorMessage && <div className="error">{errorMessage}</div>}
             </div>
