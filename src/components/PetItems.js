@@ -1,4 +1,6 @@
-export default function PetItems({ name, profilePic, city, state, country, availability }) {
+import { NavLink } from "react-router-dom";
+
+export default function PetItems({ key, name, profilePic, city, state, country, availability }) {
   return (
     <div className="card" style={{ width: "100%" }}>
       <div>
@@ -12,9 +14,9 @@ export default function PetItems({ name, profilePic, city, state, country, avail
         <p className="card-text">
           {`Availability: ${availability}`}
         </p>
-        <a href="#" className="px-btn px-btn-theme mt-2">
-          View Pet
-        </a>
+        <NavLink to={`/pets/${key}`} className="px-btn px-btn-theme mt-2">
+          Request Meetup
+        </NavLink>
       </div>
     </div>
   );

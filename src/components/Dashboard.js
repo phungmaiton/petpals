@@ -43,7 +43,7 @@ const RenderMeetups = ({ meetups }) => {
 };
 
 export default function Dashboard({ user, meetups, pets }) {
-  const user_pets = user ? pets.filter((pet) => pet.owner_id === user.id) : [];
+  const user_pets = user ? pets.filter((pet) => pet.user_id === user.id) : [];
   const user_meetups = user
     ? meetups.filter((meetup) => meetup.user_id === user.id)
     : [];
