@@ -3,6 +3,7 @@ import Pagination from "./Pagination";
 import MeetupItems from "./MeetupItems";
 import BarLoader from "react-spinners/BarLoader";
 import { useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
 
 export default function Meetups({ meetups, isLoading, user, pets, onLogin }) {
   const [currentPage, setCurrentPage] = useState(1);
@@ -14,18 +15,29 @@ export default function Meetups({ meetups, isLoading, user, pets, onLogin }) {
     setCurrentPage(selected + 1);
   };
 
+  const sorted_meetup = meetups.sort((a, b) => a.date - b.date);
+
   const currentPosts = () => {
-    return meetups.slice(indexOfFirstPost, indexOfLastPost);
+    return sorted_meetup.slice(indexOfFirstPost, indexOfLastPost);
   };
 
   return (
     <PageTransition>
       <section className="pt-[150px] pb-[20px] lg:pt-[150px] lg:pb-[50px] bg-blue relative overflow-hidden">
         <div className="container mx-auto px-10">
-          <div>
-            <h1 className="text-[#373737] font-[600] text-[30px] lg:text-[35px] xl:text-[40px] leading-[1] mb-[25px] md:mb-[32px] px-3">
-              Explore Meetups
-            </h1>
+          <div className="grid gril-cols-2 md:grid-cols-3 items-center">
+            <div className="col-span-1 md:col-span-2">
+              <h1 className="text-[#373737] font-[600] text-[30px] lg:text-[35px] xl:text-[40px] leading-[1] mb-[25px] md:mb-[32px] px-3">
+                Explore Meetups
+              </h1>
+            </div>
+            <div className="col-span-1 flex justify-end">
+              {user && (
+                <NavLink to={"/add-meetup"} className="px-btn px-btn-theme">
+                  Add Meetup
+                </NavLink>
+              )}
+            </div>
           </div>
         </div>
       </section>

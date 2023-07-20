@@ -69,7 +69,7 @@ export default function AddMeetUpForm({
   const formik = useFormik({
     initialValues: {
       user_id: user.id,
-      pet_id: pets.length > 0 ? pets[0].id.toString() : "",
+      pet_id: user.pets.length > 0 ? user.pets[0].id.toString() : "",
       title: "",
       venue: "",
       street_address: "",

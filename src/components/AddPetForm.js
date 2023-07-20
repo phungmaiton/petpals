@@ -30,7 +30,7 @@ const successAlert = () => {
   });
 };
 
-export default function AddPetForm({ user, pets, setPets }) {
+export default function AddPetForm({ user, pets, setPets, onPetChagne }) {
   const countries = useMemo(() => countryList().getData(), []);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -73,11 +73,12 @@ export default function AddPetForm({ user, pets, setPets }) {
         .then((response) => response.json())
         .then((response) => {
           console.log("Server response:", response);
-        //   const message = response.message;
-        //   console.log("Response message:", message);
+          //   const message = response.message;
+          //   console.log("Response message:", message);
           if (response.name) {
             successAlert();
             formik.resetForm();
+            onPetChagne();
           } else {
             console.log("Failed to create pet.");
             failureAlert();
@@ -106,8 +107,7 @@ export default function AddPetForm({ user, pets, setPets }) {
             type="text"
             onChange={formik.handleChange}
             value={formik.values.name}
-          >
-          </input>
+          ></input>
           <p className="error"> {formik.errors.name}</p>
         </div>
         <div>
@@ -131,10 +131,12 @@ export default function AddPetForm({ user, pets, setPets }) {
             onChange={formik.handleChange}
             value={formik.values.species}
           >
-            <option value="default" disabled selected>Dog or Cat?</option>
+            <option value="default" disabled selected>
+              Dog or Cat?
+            </option>
             <option value="dog">Dog</option>
             <option value="cat">Cat</option>
-          </select>  
+          </select>
           <p className="error"> {formik.errors.species}</p>
         </div>
         <div>
