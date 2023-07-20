@@ -4,6 +4,7 @@ import Home from "./components/Home";
 import Pets from "./components/Pets";
 import Meetups from "./components/Meetups";
 import MeetUpByID from "./components/MeetUpByID";
+import PetByID from "./components/PetByID";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
 import Dashboard from "./components/Dashboard";
@@ -95,6 +96,16 @@ function App() {
         <Route
           path="/pets"
           element={<Pets isLoading={isLoading} pets={pets} />}
+        />
+        <Route
+          path="pets/:id"
+          element={
+            <PetByID
+            user={user}
+            pet={pets}
+            onLogin={setUser}
+            />
+          }
         />
         <Route
           path="/meetups"
