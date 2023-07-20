@@ -3,8 +3,9 @@ import PageTransition from "./PageTransition";
 import Pagination from "./Pagination";
 import { useState } from "react";
 import BarLoader from "react-spinners/BarLoader";
+import { NavLink} from "react-router-dom";
 
-export default function Pets({ pets, isLoading }) {
+export default function Pets({ pets, isLoading, user }) {
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(6);
   const indexOfLastPost = currentPage * postsPerPage;
@@ -22,13 +23,19 @@ export default function Pets({ pets, isLoading }) {
     <PageTransition>
       <section className="pt-[150px] pb-[20px] lg:pt-[150px] lg:pb-[50px] bg-blue relative overflow-hidden">
         <div className="container mx-auto px-10">
-          <div>
-            <h1 className="text-[#373737] font-[600] text-[30px] lg:text-[35px] xl:text-[40px] leading-[1] mb-[25px] md:mb-[32px] px-3 flex items-center justify-center">
-              Meet New Friends
-            </h1>
-            <h4 className="text-[#424040] font-[580] text-[10px] sm:text-[16px] md:text-[18px] lg:text-[22px] xl:text-[25px] leading-[1] mb-[25px] md:mb-[32px] px-3 flex items-center justify-center">
-              Click on a profile to view more information about a pet and send their human a meetup request.
-            </h4>
+          <div className="grid gril-cols-2 md:grid-cols-3 items-center">
+            <div className="col-span-1 md:col-span-2">
+              <h1 className="text-[#373737] font-[600] text-[30px] lg:text-[35px] xl:text-[40px] leading-[1] mb-[25px] md:mb-[32px] px-3">
+                Meet New Friends
+              </h1>
+            </div>
+            <div className="col-span-1 flex justify-end">
+              {user && (
+                <NavLink to={"/add-pet"} className="px-btn px-btn-theme">
+                  Add Pet
+                </NavLink>
+              )}
+            </div>
           </div>
         </div>
       </section>

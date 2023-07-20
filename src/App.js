@@ -102,7 +102,7 @@ function App() {
         />
         <Route
           path="/pets"
-          element={<Pets isLoading={isLoading} pets={pets} />}
+          element={<Pets isLoading={isLoading} pets={pets} user={user}/>}
         />
         <Route
           path="pets/:id"
