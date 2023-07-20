@@ -54,6 +54,10 @@ export default function Meetups({ meetups, isLoading, user, pets, onLogin }) {
                   details={meetup.details}
                   image={meetup.image}
                   id={meetup.id}
+                  street_address={meetup.street_address}
+                  city={meetup.city}
+                  state={meetup.state}
+                  country={meetup.country}
                 />
               ))
             )}

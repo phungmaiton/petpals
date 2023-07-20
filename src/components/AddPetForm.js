@@ -3,6 +3,7 @@ import { useFormik } from "formik";
 import countryList from "react-select-country-list";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from "react-router-dom";
 
 const failureAlert = () => {
   toast.warning("Failed to create pet.", {
@@ -17,22 +18,25 @@ const failureAlert = () => {
   });
 };
 
-const successAlert = () => {
-  toast.success("Pet created successfully", {
-    position: "bottom-center",
-    autoClose: 4000,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: false,
-    progress: undefined,
-    theme: "light",
-  });
-};
-
-export default function AddPetForm({ user, pets, setPets, onPetChagne }) {
+export default function AddPetForm({ user, pets, setPets, onPetChange }) {
   const countries = useMemo(() => countryList().getData(), []);
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
+  const successAlert = () => {
+    toast.success("Pet created successfully", {
+      position: "bottom-center",
+      autoClose: 4000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: false,
+      progress: undefined,
+      theme: "light",
+    });
+    setTimeout(() => {
+      navigate(`/dashboard`);
+    }, "3000");
+  };
 
   const formik = useFormik({
     initialValues: {
@@ -78,7 +82,7 @@ export default function AddPetForm({ user, pets, setPets, onPetChagne }) {
           if (response.name) {
             successAlert();
             formik.resetForm();
-            onPetChagne();
+            onPetChange();
           } else {
             console.log("Failed to create pet.");
             failureAlert();

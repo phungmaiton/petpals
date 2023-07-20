@@ -24,19 +24,6 @@ const failureAlert = () => {
   });
 };
 
-const successAlert = () => {
-  toast.success("Meetup created successfully", {
-    position: "bottom-center",
-    autoClose: 4000,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: false,
-    progress: undefined,
-    theme: "light",
-  });
-};
-
 export default function AddMeetUpForm({
   user,
   onMeetupAdded,
@@ -66,6 +53,22 @@ export default function AddMeetUpForm({
   const last_meetup_id = meetups.slice(-1)[0].id;
   const newMeetupId = last_meetup_id + 1;
   console.log(last_meetup_id);
+
+  const successAlert = () => {
+    toast.success("Meetup created successfully", {
+      position: "bottom-center",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: false,
+      progress: undefined,
+      theme: "light",
+    });
+    setTimeout(() => {
+      navigate(`/meetups/${newMeetupId}`);
+    }, "3000");
+  };
   const formik = useFormik({
     initialValues: {
       user_id: user.id,
