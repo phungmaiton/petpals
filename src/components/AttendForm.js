@@ -4,7 +4,7 @@ import "react-toastify/dist/ReactToastify.css";
 import React, { useState } from "react";
 
 const failureAlert = () => {
-  toast.warning("Failed to attend.", {
+  toast.warning("This pet is already attending. Please choose another pet.", {
     position: "bottom-center",
     autoClose: 4000,
     hideProgressBar: false,

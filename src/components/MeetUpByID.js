@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import BarLoader from "react-spinners/BarLoader";
 import PageTransition from "./PageTransition";
 import AttendForm from "./AttendForm";
+import LoginPopup from "./LoginPopUp";
 
 const AttendeeList = ({ attendee }) => {
   return (
@@ -17,12 +18,14 @@ export default function MeetUpByID({
   user,
   meetupAttendees,
   onAttendeeChange,
+  onLogin,
 }) {
   const { id } = useParams();
   const [meetup, setMeetup] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [pets, setPets] = useState([]);
+  const [showLogin, setShowLogin] = useState(false);
 
   useEffect(() => {
     setIsLoading(true);
@@ -145,16 +148,30 @@ export default function MeetUpByID({
                     </li>
                   </ul>
                 </div>
-                <div className="button-group">
-                  <div className="pt-2 lg:flex pr-[10px]">
-                    <button
-                      className="px-btn px-btn-theme px_modal"
-                      onClick={() => setShowModal(true)}
-                    >
-                      Attend
-                    </button>
+
+                {user ? (
+                  <div className="button-group">
+                    <div className="pt-2 lg:flex pr-[10px]">
+                      <button
+                        className="px-btn px-btn-theme px_modal"
+                        onClick={() => setShowModal(true)}
+                      >
+                        Attend
+                      </button>
+                    </div>
                   </div>
-                </div>
+                ) : (
+                  <div className="button-group">
+                    <div className="pt-2 lg:flex pr-[10px]">
+                      <button
+                        className="px-btn px-btn-theme px_modal"
+                        onClick={() => setShowLogin(true)}
+                      >
+                        Login to Attend
+                      </button>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -192,6 +209,15 @@ export default function MeetUpByID({
             pets={user_pets}
             onAttendeeChange={onAttendeeChange}
           ></AttendForm>
+        </>
+      ) : null}
+      {showLogin ? (
+        <>
+          <LoginPopup
+            closePopup={closePopup}
+            setShowModal={setShowLogin}
+            onLogin={onLogin}
+          ></LoginPopup>
         </>
       ) : null}
     </PageTransition>
