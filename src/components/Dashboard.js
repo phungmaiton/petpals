@@ -52,7 +52,7 @@ export default function Dashboard({ user, meetups, pets }) {
     <PageTransition>
       {user && (
         <>
-          <section className="pt-[150px] pb-[20px] lg:pt-[130px] lg:pb-[30px] bg-blue relative overflow-hidden">
+          <section className="pt-[150px] pb-[20px] lg:pt-[150px] lg:pb-[50px] bg-blue relative overflow-hidden">
             <div className="container mx-auto px-10">
               <div>
                 <h1 className="text-[#373737] font-[600] text-[30px] lg:text-[35px] xl:text-[40px] leading-[1] mb-[25px] md:mb-[32px] px-3">
@@ -61,18 +61,18 @@ export default function Dashboard({ user, meetups, pets }) {
               </div>
             </div>
           </section>
-          <section className="py-[5%] lg:py-[3%] relative overflow-hidden">
+          <section className="py-[5%] lg:py-[5%] relative overflow-hidden">
             <div className="container mx-auto px-10">
               <div className="container mx-auto px-10">
                 <div className="grid lg:grid-cols-12 grid-cols-1 grid gap-10 items-top">
                   {/* Personal Info
                   ------------------------------*/}
-                  <div className="lg:col-span-6 text-left mb-[50px] lg:mb-0 dashboard-half">
+                  <div className="lg:col-span-6 text-left mb-0 lg:mb-0 dashboard-half">
                     <div className="grid grid-cols-4 gap-4">
                       <div className="col-span-3">
                         <h2>Personal Information</h2>
                       </div>
-                      <div className="lg:col-span-1 text-right mb-[50px] lg:mb-0 lg:ml-[10%] flex justify-end items-top">
+                      <div className="lg:col-span-1 text-right mb-0 lg:mb-0 lg:ml-[10%] flex justify-end items-top">
                         <div className="flex flex-col items-center spacy-y-1.5 relative text-xs ml-3">
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -100,13 +100,12 @@ export default function Dashboard({ user, meetups, pets }) {
                   </div>
                   {/* Pet Info
                   ------------------------------*/}
-                  <div className="lg:col-span-6 text-left mb-[50px] lg:mb-0 dashboard-half">
+                  <div className="lg:col-span-6 text-left mb-0 lg:mb-0 dashboard-half">
                     <div class="grid grid-cols-4 gap-4">
                       <div class="col-span-3">
                         <h2>Your Pets</h2>
                       </div>
                       <div className="lg:col-span-1 text-right mb-[50px] lg:mb-0 lg:ml-[10%] flex justify-end items-top">
-                        
                         <NavLink to="/add-pet">
                           <div className="flex flex-col items-center spacy-y-1.5 relative text-xs ml-3">
                             <svg

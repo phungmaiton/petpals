@@ -10,6 +10,7 @@ import Dashboard from "./components/Dashboard";
 import { useState, useEffect } from "react";
 import AddMeetUp from "./components/AddMeetUp";
 import AddPet from "./components/AddPet";
+import Footer from "./components/Footer";
 
 function App() {
   const location = useLocation();
@@ -58,18 +59,12 @@ function App() {
   }, []);
 
   useEffect(() => {
-    //katherine
-    //     fetch("/pets")
-    //       .then((response) => response.json())
-    //       .then((pets) => setPets(pets));
-    //   }, []);
-
     fetch("/meetup-attendees")
       .then((response) => response.json())
       .then((ma) => {
         setMeetupAttendees(ma);
       });
-  }, []);
+  }, [meetups]);
 
   function handleRefreshMeetups() {
     setIsLoading(true);
@@ -110,6 +105,7 @@ function App() {
               user={user}
               pets={pets}
               meetupAttendees={meetupAttendees}
+              onLogin={setUser}
             />
           }
         />
@@ -121,6 +117,7 @@ function App() {
               pet={pets}
               meetupAttendees={meetupAttendees}
               onAttendeeChange={handleAttendeeChange}
+              onLogin={setUser}
             />
           }
         />
@@ -147,6 +144,7 @@ function App() {
           element={<AddPet user={user} pets={pets} setPets={setPets} />}
         />
       </Routes>
+      <Footer />
     </div>
   );
 }
