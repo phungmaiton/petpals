@@ -4,6 +4,7 @@ import BarLoader from "react-spinners/BarLoader";
 import PageTransition from "./PageTransition";
 import AttendForm from "./AttendForm";
 import LoginPopup from "./LoginPopUp";
+import MapComponent from "./MapComponent";
 
 const AttendeeList = ({ attendee }) => {
   return (
@@ -80,6 +81,8 @@ export default function MeetUpByID({
     return <div>This meetup doesn't exist.</div>;
   }
 
+  const address = `${meetup.street_address}, ${meetup.city}, ${meetup.state}, ${meetup.country}`;
+
   return (
     <PageTransition>
       <section className="pt-[120px] pb-[80px] lg:pt-[130px] lg:pb-[30px] bg-blue relative overflow-hidden">
@@ -114,7 +117,7 @@ export default function MeetUpByID({
           <div className="grid lg:grid-cols-12 grid-cols-1 items-center">
             {/* COVER
             ----------------*/}
-            <div className="lg:col-span-8 text-center mb-[50px] lg:mb-0">
+            <div className="lg:col-span-8 text-center mb-0 lg:mb-0">
               <div className="meetup-cover">
                 <img
                   src={
@@ -127,7 +130,7 @@ export default function MeetUpByID({
             </div>
             {/* EVENT INFO 
             ----------------*/}
-            <div className="lg:col-span-4 text-left mb-[50px] lg:mb-0 lg:ml-[10%] items-center">
+            <div className="lg:col-span-4 text-left mb-[0px] lg:mb-0 lg:ml-[10%] items-center">
               <div className="min-h-[300px]">
                 <div className="meetup-info">
                   <ul>
@@ -180,7 +183,7 @@ export default function MeetUpByID({
           <div className="grid lg:grid-cols-12 grid-cols-1 items-center">
             {/* DETAILS 
             ----------------*/}
-            <div className="lg:col-span-8 text-left mb-[50px] lg:mb-0 py-10">
+            <div className="lg:col-span-8 text-left mb-[0px] lg:mb-0 py-10">
               <div className="meetup-details">
                 <h3>Details</h3>
                 <p>{meetup.details}</p>
@@ -196,6 +199,9 @@ export default function MeetUpByID({
                   ))}
                 </div>
               </div>
+            </div>
+            <div className="lg:col-span-4 ml-8">
+              <MapComponent address={address} />
             </div>
           </div>
         </div>

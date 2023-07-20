@@ -85,6 +85,13 @@ function App() {
       });
   }
 
+  function handlePetChange() {
+    fetch("/pets")
+      .then((response) => response.json())
+      .then((pets) => {
+        setPets(pets);
+      });
+  }
   return (
     <div>
       <Header user={user} setUser={setUser} />
@@ -152,7 +159,14 @@ function App() {
         />
         <Route
           path="/add-pet"
-          element={<AddPet user={user} pets={pets} setPets={setPets} />}
+          element={
+            <AddPet
+              user={user}
+              pets={pets}
+              setPets={setPets}
+              onPetChange={handlePetChange}
+            />
+          }
         />
       </Routes>
       <Footer />

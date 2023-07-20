@@ -27,15 +27,15 @@ const RenderMeetups = ({ meetups }) => {
       </div>
       <div className="lg:col-span-3 ml-5">
         <h2>{meetup.title}</h2>
-        <h3>Date: {meetup.date}</h3>
-        <h3>Time: {meetup.time}</h3>
-        <p>
-          {meetup.details.length > 200
-            ? meetup.details.substring(0, 200) + "..."
+        <h4>Date: {meetup.date}</h4>
+        <h4>Time: {meetup.time}</h4>
+        <p className="mt-3">
+          {meetup.details.length > 220
+            ? meetup.details.substring(0, 220) + "..."
             : meetup.details}
         </p>
         <NavLink to={`/meetups/${meetup.id}`}>
-          <button className="px-btn px-btn-theme">View Meetup</button>
+          <button className="px-btn px-btn-theme mt-4">View Meetup</button>
         </NavLink>
       </div>
     </div>
