@@ -3,9 +3,10 @@ import PageTransition from "./PageTransition";
 import Pagination from "./Pagination";
 import { useState } from "react";
 import BarLoader from "react-spinners/BarLoader";
-import { NavLink} from "react-router-dom";
+import { NavLink } from "react-router-dom";
+import SearchPet from "./SearchPets";
 
-export default function Pets({ pets, isLoading, user }) {
+export default function Pets({ pets, isLoading, user, searchTerm, setSearchTerm }) {
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(6);
   const indexOfLastPost = currentPage * postsPerPage;
@@ -15,8 +16,19 @@ export default function Pets({ pets, isLoading, user }) {
     setCurrentPage(selected + 1);
   };
 
+  const filteredPets = pets
+  .filter((pet) => {
+    return (
+      pet.city.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  })
+
   const currentPosts = () => {
-    return pets.slice(indexOfFirstPost, indexOfLastPost);
+    if (searchTerm == "") {
+      return pets.slice(indexOfFirstPost, indexOfLastPost);
+    } else {
+      return filteredPets.slice(indexOfFirstPost, indexOfLastPost)
+    }  
   };
 
   return (
@@ -41,6 +53,9 @@ export default function Pets({ pets, isLoading, user }) {
       </section>
       <section className="py-[5%] lg:py-[3%] relative overflow-hidden">
         <div className="container mx-auto px-10">
+          <SearchPet
+            setSearchTerm={setSearchTerm}
+          />
           <div className="column-div">
             {isLoading ? (
               <BarLoader color="#87AF73" />
