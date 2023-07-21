@@ -368,7 +368,7 @@ h1 {
 
 
 h2 {
-  @apply font-[700] text-[30px] leading-[60px]
+  @apply font-[700] text-[30px] leading-[40px]
 }
 
 h3 {
