@@ -9,9 +9,9 @@ export default function PetItems({ id, name, profilePic, city, state, country, a
       <div className="card-body">
         <h5 className="card-title">{name}</h5>
         <p className="card-text pb-[1rem]">
-          Located in: {city}, {state}, {country}
+          <strong>Located in:</strong> {city}, {state}, {country}
           <br />
-          Availability: {availability}
+          <strong>Availability:</strong> {availability}
         </p>
         <div className="flex items-center justify-center">
           <NavLink to={`/pets/${id}`} className="px-btn px-btn-theme mt-2">
