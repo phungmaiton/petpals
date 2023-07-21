@@ -68,6 +68,7 @@ export default function AddMeetUpForm({
     });
     setTimeout(() => {
       navigate(`/meetups/${newMeetupId}`);
+      onUserChange();
     }, "3000");
   };
   const formik = useFormik({
