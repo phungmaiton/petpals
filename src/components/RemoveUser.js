@@ -37,7 +37,7 @@ const successAlert = () => {
   });
 };
 
-export default function AddMeetUpForm({
+export default function RemoveUser({
   user,
   onMeetupAdded,
   onAttendeeChange,

@@ -3,6 +3,8 @@ import { useParams } from "react-router-dom";
 import BarLoader from "react-spinners/BarLoader";
 import PageTransition from "./PageTransition";
 import AttendForm from "./AttendForm";
+import Dashboard from "./Dashboard";
+
 
 const AttendeeList = ({ attendee }) => {
   return (
@@ -12,6 +14,8 @@ const AttendeeList = ({ attendee }) => {
     </div>
   );
 };
+
+
 
 export default function MeetUpByID({
   user,
@@ -76,6 +80,16 @@ export default function MeetUpByID({
   if (!meetup) {
     return <div>This meetup doesn't exist.</div>;
   }
+
+  // const handleDelete = (meetup) => {
+  //   fetch(`/meetups/${meetup.id}`, {
+  //     method: 'DELETE'
+  //   })
+  //   .then(() => {
+  //     deleteMeetup(meetup)
+  //   })
+  // }
+
 
   return (
     <PageTransition>
@@ -192,6 +206,9 @@ export default function MeetUpByID({
             pets={user_pets}
             onAttendeeChange={onAttendeeChange}
           ></AttendForm>
+          {/* <Dashboard
+          handleDelete = {handleDelete}
+          ></Dashboard> */}
         </>
       ) : null}
     </PageTransition>

@@ -9,6 +9,8 @@ import Signup from "./components/Signup";
 import Dashboard from "./components/Dashboard";
 import { useState, useEffect } from "react";
 import AddMeetUp from "./components/AddMeetUp";
+import EditMeetUp from './components/EditMeetUp'
+import { useNavigate } from "react-router-dom";
 
 function App() {
   const location = useLocation();
@@ -17,6 +19,9 @@ function App() {
   const [pets, setPets] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [meetupAttendees, setMeetupAttendees] = useState([]);
+  const [meetupToEdit, setMeetupToEdit] = useState(false)
+  const navigate = useNavigate();
+
   useEffect(() => {
     // auto-login
     fetch("/check_session")
@@ -80,6 +85,26 @@ function App() {
       });
   }
 
+  const updateMeetup = (meetupToUpdate) => {
+    setMeetups(meetups => meetups.map(meetup => {
+      if (meetup.id === meetupToUpdate.id) {
+        return meetupToUpdate
+      } else {
+        return meetup
+      }
+    }))
+  }
+
+  const handleEdit = (meetup) => {
+    setMeetupToEdit(meetup)
+    navigate(`/meetups/${meetup.id}/edit-meetup`)
+  }
+
+  const deleteMeetup = (deletedMeetup) => {
+    setMeetups(meetups => 
+      meetups.filter(meetup => meetup.id !== deletedMeetup.id))
+  }
+
   return (
     <div>
       <Header user={user} setUser={setUser} />
@@ -109,6 +134,8 @@ function App() {
               pet={pets}
               meetupAttendees={meetupAttendees}
               onAttendeeChange={handleAttendeeChange}
+              handleEdit = {handleEdit}
+              deleteMeetup = {deleteMeetup}
             />
           }
         />
@@ -116,7 +143,14 @@ function App() {
         <Route path="/signup" element={<Signup onLogin={setUser} />} />
         <Route
           path="/dashboard"
-          element={<Dashboard user={user} meetups={meetups} pets={pets} />}
+          element={
+            <Dashboard 
+              user={user} 
+              meetups={meetups} 
+              pets={pets} 
+              
+            />
+          }
         />
         <Route
           path="/add-meetup"
@@ -126,6 +160,19 @@ function App() {
               onMeetupAdded={handleRefreshMeetups}
               onAttendeeChange={handleAttendeeChange}
               meetups={meetups}
+            />
+          }
+        />
+        <Route
+          path="/meetups/id/edit-meetup"
+          element={
+            <EditMeetUp
+              user={user}
+              pet={pets}
+              onMeetupAdded={handleRefreshMeetups}
+              meetups={meetups}
+              updateMeetup = {updateMeetup}
+              meetupToEdit ={meetupToEdit}
             />
           }
         />
