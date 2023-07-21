@@ -214,14 +214,14 @@ function App() {
         <Route
           path="/pets"
           element={
-            <Pets 
-              isLoading={isLoading} 
-              pets={pets} 
-              user={user} 
+            <Pets
+              isLoading={isLoading}
+              pets={pets}
+              user={user}
               searchTerm={searchTerm}
               setSearchTerm={setSearchTerm}
-              />
-            }
+            />
+          }
         />
         <Route
           path="pets/:id"
@@ -281,6 +281,7 @@ function App() {
               onMeetupAdded={handleRefreshMeetups}
               onAttendeeChange={handleAttendeeChange}
               meetups={meetups}
+              onUserChange={handleUserChange}
             />
           }
         />
@@ -334,6 +335,7 @@ function App() {
               pets={pets}
               setPets={setPets}
               onPetChange={handlePetChange}
+              onUserUpdate={handleUserChange}
             />
           }
         />

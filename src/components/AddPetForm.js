@@ -18,7 +18,6 @@ const failureAlert = () => {
   });
 };
 
-
 const successAlert = () => {
   toast.success("Pet created successfully", {
     position: "bottom-center",
@@ -32,8 +31,13 @@ const successAlert = () => {
   });
 };
 
-
-export default function AddPetForm({ user, pets, setPets, onPetChange }) {
+export default function AddPetForm({
+  user,
+  pets,
+  setPets,
+  onPetChange,
+  onUserUpdate,
+}) {
   const countries = useMemo(() => countryList().getData(), []);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
@@ -98,6 +102,7 @@ export default function AddPetForm({ user, pets, setPets, onPetChange }) {
             successAlert();
             formik.resetForm();
             onPetChange();
+            onUserUpdate();
           } else {
             console.log("Failed to create pet.");
             failureAlert();

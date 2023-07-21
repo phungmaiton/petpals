@@ -1,7 +1,12 @@
 import AddMeetUpForm from "./AddMeetUpForm";
 import PageTransition from "./PageTransition";
 
-export default function AddMeetUp({ user, onMeetupAdded, meetups }) {
+export default function AddMeetUp({
+  user,
+  onMeetupAdded,
+  meetups,
+  onUserChange,
+}) {
   return (
     <PageTransition>
       {user && (
@@ -11,6 +16,7 @@ export default function AddMeetUp({ user, onMeetupAdded, meetups }) {
               user={user}
               onMeetupAdded={onMeetupAdded}
               meetups={meetups}
+              onUserChange={onUserChange}
             />
           </section>
         </>
