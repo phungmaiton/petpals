@@ -3,8 +3,11 @@ import { useParams } from "react-router-dom";
 import BarLoader from "react-spinners/BarLoader";
 import PageTransition from "./PageTransition";
 import AttendForm from "./AttendForm";
+import Dashboard from "./Dashboard";
+import { useNavigate } from "react-router-dom";
 import LoginPopup from "./LoginPopUp";
 import MapComponent from "./MapComponent";
+
 
 const AttendeeList = ({ attendee }) => {
   return (
@@ -21,14 +24,21 @@ export default function MeetUpByID({
   user,
   meetupAttendees,
   onAttendeeChange,
+
+  deleteMeetup,
+  handleMeetupEdit
+
   onLogin,
+
 }) {
   const { id } = useParams();
   const [meetup, setMeetup] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [pets, setPets] = useState([]);
+  const navigate = useNavigate();
   const [showLogin, setShowLogin] = useState(false);
+
 
   useEffect(() => {
     setIsLoading(true);
@@ -83,7 +93,20 @@ export default function MeetUpByID({
     return <div>This meetup doesn't exist.</div>;
   }
 
+
+  const handleDelete = (meetup) => {
+    fetch(`/meetups/${meetup.id}`, {
+      method: 'DELETE'
+    })
+    .then(() => {
+      deleteMeetup(meetup)
+      navigate('/dashboard')
+    })
+  }
+
+
   const address = `${meetup.street_address}, ${meetup.city}, ${meetup.state}, ${meetup.country}`;
+
 
   return (
     <PageTransition>
@@ -217,6 +240,9 @@ export default function MeetUpByID({
             pets={user_pets}
             onAttendeeChange={onAttendeeChange}
           ></AttendForm>
+          <Dashboard
+          handleDelete = {handleDelete}
+          ></Dashboard>
         </>
       ) : null}
       {showLogin ? (

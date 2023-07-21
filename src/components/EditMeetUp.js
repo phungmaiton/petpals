@@ -1,4 +1,3 @@
-
 import { useState, useMemo } from "react";
 import { useFormik } from "formik";
 import countryList from "react-select-country-list";
@@ -12,9 +11,10 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 
-const failureAlert = () => {
-  toast.warning("Failed to remove meetup.", {
 
+
+const failureAlert = () => {
+  toast.warning("Failed to change meetup.", {
     position: "bottom-center",
     autoClose: 4000,
     hideProgressBar: false,
@@ -27,9 +27,7 @@ const failureAlert = () => {
 };
 
 const successAlert = () => {
-
-  toast.success("Meetup removed successfully", {
-
+  toast.success("Meetup changed successfully", {
     position: "bottom-center",
     autoClose: 4000,
     hideProgressBar: false,
@@ -41,12 +39,12 @@ const successAlert = () => {
   });
 };
 
-
-export default function RemoveUser({
+export default function EditMeetUp({
   user,
   onMeetupAdded,
-  onAttendeeChange,
-  meetups,
+  updateMeetup,
+  meetupToEdit,
+  handleMeetupEdit
 }) {
   const navigate = useNavigate();
   const countries = useMemo(() => countryList().getData(), []);
@@ -67,97 +65,57 @@ export default function RemoveUser({
   //     time: yup.string().required("Please select a time"),
   //   });
 
-  console.log(meetups);
-  const last_meetup_id = meetups.slice(-1)[0].id;
-  const newMeetupId = last_meetup_id + 1;
-  console.log(last_meetup_id);
   const formik = useFormik({
     initialValues: {
       user_id: user.id,
       pet_id: pets.length > 0 ? pets[0].id.toString() : "",
-      title: "",
-      venue: "",
-      street_address: "",
-      city: "",
-      state: "",
-      country: "",
-      date: new Date(),
-      time: "10:00",
-      image: "",
-      details: "",
+      title: meetupToEdit.title,
+      venue: meetupToEdit.venue,
+      street_address: meetupToEdit.street_address,
+      city: meetupToEdit.city,
+      state: meetupToEdit.state,
+      country: meetupToEdit.country,
+      date: meetupToEdit.date,
+      time: meetupToEdit.time,
+      image: meetupToEdit.image,
+      details: meetupToEdit.details,
     },
     onSubmit: (values) => {
       setIsLoading(true);
-      const data = {
-        user_id: values.user_id,
-        pet_id: parseInt(values.pet_id),
-        venue: values.venue,
-        street_address: values.street_address,
-        city: values.city,
-        state: values.state,
-        country: values.country,
-        date: values.date.toISOString().slice(0, 10),
-        time: values.time,
-        image: values.image,
-        title: values.title,
-        details: values.details,
-      };
-
-      const attendData = {
-        meetup_id: parseInt(newMeetupId),
-        attendee_id: parseInt(values.pet_id),
-      };
-      console.log(data);
-      fetch("/meetups", {
-
-        method: "POST",
-        body: JSON.stringify(data),
+        
+      fetch(`/meetups/${meetupToEdit.id}`, {
+        method: "PATCH",
+        body: JSON.stringify(values),
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
         },
       })
-        .then((response) => response.json())
         .then((response) => {
-
+            if (response.ok) {
+                response.json().then(meetup => {
+                    updateMeetup(meetup)
+                    navigate(`/meetups/${meetupToEdit.id}`)
+                })
+            }
+        })
+        .then((response) => {
           console.log("Server response:", response);
           const message = response.message; // Extract the message value for success/failure indication
           console.log("Response message:", message);
-          if (message === "Meetup created successfully.") {
+          if (message === "Meetup changed successfully.") {
             setIsLoading(false);
             successAlert();
             formik.resetForm();
             onMeetupAdded();
           } else {
-            console.log("Failed to create meetup");
-
+            console.log("Failed to change meetup");
             failureAlert();
           }
         })
         .catch((errors) => {
           console.log("Errors", errors);
           failureAlert();
-        });
-
-
-      fetch("/meetup-attendees", {
-        method: "POST",
-        body: JSON.stringify(attendData),
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-      })
-        .then((response) => response.json())
-        .then((response) => {
-          if (response.message === "successful") {
-            onAttendeeChange();
-          } else {
-            failureAlert();
-          }
-        })
-        .catch((errors) => {
-          console.log("Errors", errors);
         });
     },
   });
@@ -166,7 +124,7 @@ export default function RemoveUser({
       <form
         onSubmit={formik.handleSubmit}
         id="meetup-add-form"
-        method="POST"
+        method="PATCH"
         className="form"
       >
         <div>
@@ -322,14 +280,15 @@ export default function RemoveUser({
         </div>
 
         <div>
-          <button type="submit" className="px-btn px-btn-theme mt-4">
-            {isLoading ? "Loading..." : "Create Meetup"}
+          <button type="onClick" className="px-btn px-btn-theme mt-4">
+            {isLoading ? "Loading..." : "Change Meetup"}
           </button>
         </div>
         {/* <div>{errorMessage && <div className="error">{errorMessage}</div>}</div> */}
       </form>
       <ToastContainer />
-
     </div>
   );
 }
+
+
