@@ -15,9 +15,11 @@ export default function MeetupItems({ title, details, image, id }) {
         <p className="meetup-card-text">
           {details.length > 150 ? details.substring(0, 150) + "..." : details}
         </p>
-        <NavLink to={`/meetups/${id}`} className="px-btn px-btn-theme">
-          View Meetup
-        </NavLink>
+        <div className="flex items-center justify-center">
+          <NavLink to={`/meetups/${id}`} className="px-btn px-btn-theme">
+            View Meetup
+          </NavLink>
+        </div>
       </div>
     </div>
   );

@@ -30,7 +30,7 @@ const successAlert = () => {
   });
 };
 
-export default function AddPetForm({ user, pets, setPets, onPetChagne }) {
+export default function AddPetForm({ user, pets, setPets, onPetChange }) {
   const countries = useMemo(() => countryList().getData(), []);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -78,7 +78,7 @@ export default function AddPetForm({ user, pets, setPets, onPetChagne }) {
           if (response.name) {
             successAlert();
             formik.resetForm();
-            onPetChagne();
+            onPetChange();
           } else {
             console.log("Failed to create pet.");
             failureAlert();
