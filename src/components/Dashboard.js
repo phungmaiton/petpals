@@ -1,7 +1,7 @@
 import PageTransition from "./PageTransition";
 import { NavLink } from "react-router-dom";
 import { useEffect, useState } from "react";
-
+import EditUser from "./EditUser";
 
 const RenderPets = ({ pets }) => {
   return pets.map((pet) => (
@@ -43,19 +43,24 @@ const RenderMeetups = ({ meetups }) => {
   ));
 };
 
-
-export default function Dashboard({ 
-  user, 
-  meetups, 
-  pets, 
-  handleDelete, 
-  handleMeetupEdit 
+export default function Dashboard({
+  user,
+  meetups,
+  pets,
+  onLogin,
+  handleUserChange,
 }) {
-  const user_pets = user ? pets.filter((pet) => pet.owner_id === user.id) : [];
-
+  const user_pets = user ? pets.filter((pet) => pet.user_id === user.id) : [];
   const user_meetups = user
     ? meetups.filter((meetup) => meetup.user_id === user.id)
     : [];
+
+  const [showUserEditModal, setShowUserEditModal] = useState(false);
+  const closeLoginPopup = () => {
+    setShowUserEditModal(false);
+  };
+
+  const [errorMessage, setErrorMessage] = useState("");
 
   return (
     <PageTransition>
@@ -81,7 +86,10 @@ export default function Dashboard({
                       <div className="col-span-3">
                         <h2>Personal Information</h2>
                       </div>
-                      <div className="lg:col-span-1 text-right mb-0 lg:mb-0 lg:ml-[10%] flex justify-end items-top">
+                      <div
+                        className="lg:col-span-1 text-right mb-0 lg:mb-0 lg:ml-[10%] flex justify-end items-top"
+                        onClick={() => setShowUserEditModal(true)}
+                      >
                         <div className="flex flex-col items-center spacy-y-1.5 relative text-xs ml-3">
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -204,44 +212,37 @@ export default function Dashboard({
                           </div>
                         </NavLink>
 
-                        <NavLink to="/dashboard">
-                          <div className="flex flex-col items-center spacy-y-1.5 relative text-xs ml-3">
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              width="16"
-                              height="16"
-                              fill="currentColor"
-                              className="bi bi-x-square dashboard-icon cursor-pointer"
-                              viewBox="0 0 16 16"
-                            >
-                              <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z" />
-                              <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
-                            </svg>
-                            
-                            <button onClick={() => handleDelete(meetups[1].id)}>Delete</button>
-                            {console.log(meetups)}
-                          </div>
-                        </NavLink>
-                        <NavLink to={`/meetups/${user.meetups[0].id}/edit-meetup`}>
-                          {console.log(user.meetups)}
-                          <div className="flex flex-col items-center spacy-y-1.5 relative text-xs ml-3">
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              width="16"
-                              height="16"
-                              fill="currentColor"
-                              className="bi bi-pencil-square dashboard-icon cursor-pointer"
-                              viewBox="0 0 16 16"
-                            >
-                              <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
-                              <path
-                                fillRule="evenodd"
-                                d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"
-                              />
-                            </svg>
-                            <button onClick={() => handleMeetupEdit(meetups[1].id)}>Edit</button>
-                          </div>
-                        </NavLink>
+                        <div className="flex flex-col items-center spacy-y-1.5 relative text-xs ml-3">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="16"
+                            height="16"
+                            fill="currentColor"
+                            className="bi bi-x-square dashboard-icon cursor-pointer"
+                            viewBox="0 0 16 16"
+                          >
+                            <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z" />
+                            <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+                          </svg>
+                          <p>Remove</p>
+                        </div>
+                        <div className="flex flex-col items-center spacy-y-1.5 relative text-xs ml-3">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="16"
+                            height="16"
+                            fill="currentColor"
+                            className="bi bi-pencil-square dashboard-icon cursor-pointer"
+                            viewBox="0 0 16 16"
+                          >
+                            <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                            <path
+                              fillRule="evenodd"
+                              d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"
+                            />
+                          </svg>
+                          <p>Edit</p>
+                        </div>
                       </div>
                     </div>
                     {meetups.length === 0 ? (
@@ -260,6 +261,17 @@ export default function Dashboard({
           </section>
         </>
       )}
+      {showUserEditModal ? (
+        <>
+          <EditUser
+            closePopup={closeLoginPopup}
+            setShowModal={setShowUserEditModal}
+            onLogin={onLogin}
+            user={user}
+            handleUserChange={handleUserChange}
+          />
+        </>
+      ) : null}
     </PageTransition>
   );
 }

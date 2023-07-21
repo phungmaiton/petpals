@@ -11,7 +11,7 @@ import Dashboard from "./components/Dashboard";
 import { useState, useEffect } from "react";
 import AddMeetUp from "./components/AddMeetUp";
 
-import EditMeetUp from './components/EditMeetUp'
+import EditMeetUp from "./components/EditMeetUp";
 import { useNavigate } from "react-router-dom";
 import EditPet from "./components/EditPet";
 import EditUser from "./components/EditUser";
@@ -39,7 +39,6 @@ const calculateLatLongForMeetups = async (meetups) => {
   return updatedMeetups.filter((meetup) => meetup !== null);
 };
 
-
 function App() {
   const location = useLocation();
   const [user, setUser] = useState(null);
@@ -49,14 +48,13 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [meetupAttendees, setMeetupAttendees] = useState([]);
 
-  const [meetupToEdit, setMeetupToEdit] = useState(false)
-  const [petToEdit, setPetToEdit] = useState(false)
-  const [userToEdit, setUserToEdit] = useState(false)
+  const [meetupToEdit, setMeetupToEdit] = useState(false);
+  const [petToEdit, setPetToEdit] = useState(false);
+  const [users, setUsers] = useState([]);
   const navigate = useNavigate();
 
   const [updatedMeetups, setUpdatedMeetups] = useState([]);
   const [isMeetupsLoading, setIsMeetupsLoading] = useState(true);
-
 
   useEffect(() => {
     // auto-login
@@ -120,46 +118,50 @@ function App() {
         setMeetupAttendees(ma);
       });
   }
-//meetup crud
+  //meetup crud
   const updateMeetup = (meetupToUpdate) => {
-    setMeetups(meetups => meetups.map(meetup => {
-      if (meetup.id === meetupToUpdate.id) {
-        return meetupToUpdate
-      } else {
-        return meetup
-      }
-    }))
-  }
+    setMeetups((meetups) =>
+      meetups.map((meetup) => {
+        if (meetup.id === meetupToUpdate.id) {
+          return meetupToUpdate;
+        } else {
+          return meetup;
+        }
+      })
+    );
+  };
 
   const handleMeetupEdit = (meetup) => {
-    setMeetupToEdit(meetup)
-    navigate(`/meetups/${meetup.id}/edit-meetup`)
-  }
+    setMeetupToEdit(meetup);
+    navigate(`/meetups/${meetup.id}/edit-meetup`);
+  };
 
   const deleteMeetup = (deletedMeetup) => {
-    setMeetups(meetups => 
-      meetups.filter(meetup => meetup.id !== deletedMeetup.id))
-  }
+    setMeetups((meetups) =>
+      meetups.filter((meetup) => meetup.id !== deletedMeetup.id)
+    );
+  };
   //pet crud
   const updatePet = (petToUpdate) => {
-    setPets(pets => pets.map(pet => {
-      if (pet.id === petToUpdate.id) {
-        return petToUpdate
-      } else {
-        return pet
-      }
-    }))
-  }
+    setPets((pets) =>
+      pets.map((pet) => {
+        if (pet.id === petToUpdate.id) {
+          return petToUpdate;
+        } else {
+          return pet;
+        }
+      })
+    );
+  };
 
   const handlePetEdit = (pet) => {
-    setPetToEdit(pet)
-    navigate(`/pets/${pet.id}/edit-pet`)
-  }
+    setPetToEdit(pet);
+    navigate(`/pets/${pet.id}/edit-pet`);
+  };
 
   const deletePet = (deletedPet) => {
-    setPets(pets => 
-      pets.filter(pet => pet.id !== deletedPet.id))
-  }
+    setPets((pets) => pets.filter((pet) => pet.id !== deletedPet.id));
+  };
 
   //user crud
   // const updateUser = (userToUpdate) => {
@@ -177,13 +179,19 @@ function App() {
   //   navigate(``)
   // }
 
-
-
   function handlePetChange() {
     fetch("/pets")
       .then((response) => response.json())
       .then((pets) => {
         setPets(pets);
+      });
+  }
+
+  function handleUserChange() {
+    fetch("/users")
+      .then((response) => response.json())
+      .then((users) => {
+        setUsers(user);
       });
   }
 
@@ -205,17 +213,11 @@ function App() {
         />
         <Route
           path="/pets"
-          element={<Pets isLoading={isLoading} pets={pets} user={user}/>}
+          element={<Pets isLoading={isLoading} pets={pets} user={user} />}
         />
         <Route
           path="pets/:id"
-          element={
-            <PetByID
-            user={user}
-            pet={pets}
-            onLogin={setUser}
-            />
-          }
+          element={<PetByID user={user} pet={pets} onLogin={setUser} />}
         />
         <Route
           path="/meetups"
@@ -240,12 +242,9 @@ function App() {
               pet={pets}
               meetupAttendees={meetupAttendees}
               onAttendeeChange={handleAttendeeChange}
-
-              handleMeetupEdit = {handleMeetupEdit}
-              deleteMeetup = {deleteMeetup}
-
+              handleMeetupEdit={handleMeetupEdit}
+              deleteMeetup={deleteMeetup}
               onLogin={setUser}
-
             />
           }
         />
@@ -255,12 +254,13 @@ function App() {
         <Route
           path="/dashboard"
           element={
-            <Dashboard 
-              user={user} 
-              meetups={meetups} 
-              pets={pets} 
-              handleMeetupEdit = {handleMeetupEdit}
-              
+            <Dashboard
+              user={user}
+              meetups={meetups}
+              pets={pets}
+              handleMeetupEdit={handleMeetupEdit}
+              onLogin={setUser}
+              handleUserChange={handleUserChange}
             />
           }
         />
@@ -283,11 +283,10 @@ function App() {
               pet={pets}
               onMeetupAdded={handleRefreshMeetups}
               meetups={meetups}
-              updateMeetup = {updateMeetup}
-              meetupToEdit ={meetupToEdit}
-              handleMeetupEdit = {handleMeetupEdit}
+              updateMeetup={updateMeetup}
+              meetupToEdit={meetupToEdit}
+              handleMeetupEdit={handleMeetupEdit}
             />
-            
           }
         />
 
@@ -298,13 +297,13 @@ function App() {
               user={user}
               pet={pets}
               meetups={meetups}
-              updatePet = {updatePet}
-              petToEdit ={petToEdit}
-              handlePetEdit = {handlePetEdit}
+              updatePet={updatePet}
+              petToEdit={petToEdit}
+              handlePetEdit={handlePetEdit}
             />
           }
         />
-         {/* <Route
+        {/* <Route
           path="/dashboard/edit"
           element={
             <EditUser
@@ -318,7 +317,7 @@ function App() {
           }
         /> */}
 
-        <Route 
+        <Route
           path="/add-pet"
           element={
             <AddPet
@@ -329,7 +328,6 @@ function App() {
             />
           }
         />
-
       </Routes>
       <Footer />
     </div>

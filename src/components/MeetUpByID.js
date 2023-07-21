@@ -7,15 +7,17 @@ import Dashboard from "./Dashboard";
 import { useNavigate } from "react-router-dom";
 import LoginPopup from "./LoginPopUp";
 import MapComponent from "./MapComponent";
-
+import { NavLink } from "react-router-dom";
 
 const AttendeeList = ({ attendee }) => {
   return (
     <div className="attendees">
-      <img className="avatar mt-3 mb-2" src={attendee.profile_pic} />
-      <p>
-        <strong>{attendee.name}</strong>
-      </p>
+      <NavLink to={`/pets/${attendee.id}`}>
+        <img className="avatar mt-3 mb-2" src={attendee.profile_pic} />
+        <p>
+          <strong>{attendee.name}</strong>
+        </p>
+      </NavLink>
     </div>
   );
 };
@@ -27,7 +29,6 @@ export default function MeetUpByID({
   deleteMeetup,
   handleMeetupEdit,
   onLogin,
-
 }) {
   const { id } = useParams();
   const [meetup, setMeetup] = useState(null);
@@ -36,7 +37,6 @@ export default function MeetUpByID({
   const [pets, setPets] = useState([]);
   const navigate = useNavigate();
   const [showLogin, setShowLogin] = useState(false);
-
 
   useEffect(() => {
     setIsLoading(true);
@@ -91,20 +91,16 @@ export default function MeetUpByID({
     return <div>This meetup doesn't exist.</div>;
   }
 
-
   const handleDelete = (meetup) => {
     fetch(`/meetups/${meetup.id}`, {
-      method: 'DELETE'
-    })
-    .then(() => {
-      deleteMeetup(meetup)
-      navigate('/dashboard')
-    })
-  }
-
+      method: "DELETE",
+    }).then(() => {
+      deleteMeetup(meetup);
+      navigate("/dashboard");
+    });
+  };
 
   const address = `${meetup.street_address}, ${meetup.city}, ${meetup.state}, ${meetup.country}`;
-
 
   return (
     <PageTransition>
@@ -238,9 +234,7 @@ export default function MeetUpByID({
             pets={user_pets}
             onAttendeeChange={onAttendeeChange}
           ></AttendForm>
-          <Dashboard
-          handleDelete = {handleDelete}
-          ></Dashboard>
+          <Dashboard handleDelete={handleDelete}></Dashboard>
         </>
       ) : null}
       {showLogin ? (
