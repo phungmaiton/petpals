@@ -74,7 +74,7 @@ export default function AddMeetUpForm({
   const formik = useFormik({
     initialValues: {
       user_id: user.id,
-      pet_id: user.pets.length > 0 ? user.pets[0].id.toString() : "",
+      pet_id: "",
       title: "",
       venue: "",
       street_address: "",
@@ -176,6 +176,8 @@ export default function AddMeetUpForm({
             onChange={formik.handleChange}
             value={formik.values.pet_id}
           >
+            {" "}
+            <option value="default"></option>
             {pets.map((pet) => (
               <option key={pet.id} value={pet.id}>
                 {pet.name}
