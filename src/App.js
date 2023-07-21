@@ -4,27 +4,59 @@ import Home from "./components/Home";
 import Pets from "./components/Pets";
 import Meetups from "./components/Meetups";
 import MeetUpByID from "./components/MeetUpByID";
+import PetByID from "./components/PetByID";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
 import Dashboard from "./components/Dashboard";
 import { useState, useEffect } from "react";
 import AddMeetUp from "./components/AddMeetUp";
+
 import EditMeetUp from './components/EditMeetUp'
 import { useNavigate } from "react-router-dom";
 import EditPet from "./components/EditPet";
 import EditUser from "./components/EditUser";
+
+import AddPet from "./components/AddPet";
+import Footer from "./components/Footer";
+import Geocode from "react-geocode";
+
+Geocode.setApiKey("AIzaSyAN_Pb8XbXRMZcpXQXax9GIyIfo0f5odgM");
+const fetchMeetupLocation = async (meetup) => {
+  const { street_address, city, state, country } = meetup;
+  const meetupAddress = `${street_address}, ${city}, ${state}, ${country}`;
+
+  try {
+    const response = await Geocode.fromAddress(meetupAddress);
+    const { lat, lng } = response.results[0].geometry.location;
+    return { ...meetup, latitude: lat, longitude: lng };
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+};
+const calculateLatLongForMeetups = async (meetups) => {
+  const updatedMeetups = await Promise.all(meetups.map(fetchMeetupLocation));
+  return updatedMeetups.filter((meetup) => meetup !== null);
+};
+
 
 function App() {
   const location = useLocation();
   const [user, setUser] = useState(null);
   const [meetups, setMeetups] = useState([]);
   const [pets, setPets] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [meetupAttendees, setMeetupAttendees] = useState([]);
+
   const [meetupToEdit, setMeetupToEdit] = useState(false)
   const [petToEdit, setPetToEdit] = useState(false)
   const [userToEdit, setUserToEdit] = useState(false)
   const navigate = useNavigate();
+
+  const [updatedMeetups, setUpdatedMeetups] = useState([]);
+  const [isMeetupsLoading, setIsMeetupsLoading] = useState(true);
+
 
   useEffect(() => {
     // auto-login
@@ -50,7 +82,7 @@ function App() {
       .then((response) => response.json())
       .then((meetups) => {
         setMeetups(meetups);
-        setIsLoading(false);
+        setIsMeetupsLoading(false);
       });
   }, []);
   useEffect(() => {
@@ -69,7 +101,7 @@ function App() {
       .then((ma) => {
         setMeetupAttendees(ma);
       });
-  }, []);
+  }, [meetups]);
 
   function handleRefreshMeetups() {
     setIsLoading(true);
@@ -147,6 +179,22 @@ function App() {
 
 
 
+  function handlePetChange() {
+    fetch("/pets")
+      .then((response) => response.json())
+      .then((pets) => {
+        setPets(pets);
+      });
+  }
+
+  useEffect(() => {
+    if (!isMeetupsLoading) {
+      calculateLatLongForMeetups(meetups).then((updatedMeetups) => {
+        setUpdatedMeetups(updatedMeetups);
+      });
+    }
+  }, [isMeetupsLoading, meetups]);
+
   return (
     <div>
       <Header user={user} setUser={setUser} />
@@ -155,16 +203,32 @@ function App() {
           path="/"
           element={<Home isLoading={isLoading} meetups={meetups} />}
         />
-        <Route path="/pets" element={<Pets isLoading={isLoading} />} />
+        <Route
+          path="/pets"
+          element={<Pets isLoading={isLoading} pets={pets} user={user}/>}
+        />
+        <Route
+          path="pets/:id"
+          element={
+            <PetByID
+            user={user}
+            pet={pets}
+            onLogin={setUser}
+            />
+          }
+        />
         <Route
           path="/meetups"
           element={
             <Meetups
-              meetups={meetups}
+              meetups={updatedMeetups}
               isLoading={isLoading}
               user={user}
               pets={pets}
               meetupAttendees={meetupAttendees}
+              onLogin={setUser}
+              searchTerm={searchTerm}
+              setSearchTerm={setSearchTerm}
             />
           }
         />
@@ -176,11 +240,16 @@ function App() {
               pet={pets}
               meetupAttendees={meetupAttendees}
               onAttendeeChange={handleAttendeeChange}
+
               handleMeetupEdit = {handleMeetupEdit}
               deleteMeetup = {deleteMeetup}
+
+              onLogin={setUser}
+
             />
           }
         />
+
         <Route path="/login" element={<Login onLogin={setUser} />} />
         <Route path="/signup" element={<Signup onLogin={setUser} />} />
         <Route
@@ -207,6 +276,7 @@ function App() {
           }
         />
         <Route
+
           path="/meetups/edit"
           element={
             <EditMeetUp
@@ -248,7 +318,20 @@ function App() {
             />
           }
         /> */}
+
+          path="/add-pet"
+          element={
+            <AddPet
+              user={user}
+              pets={pets}
+              setPets={setPets}
+              onPetChange={handlePetChange}
+            />
+          }
+        />
+
       </Routes>
+      <Footer />
     </div>
   );
 }

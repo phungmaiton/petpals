@@ -46,7 +46,7 @@ export default function Signup({ onLogin }) {
 
   return (
     <PageTransition>
-      <section className="pt-[120px] pb-[80px] lg:pt-[170px] lg:pb-[100px] bg-blue relative overflow-hidden h-screen">
+      <section className="pt-[120px] pb-[80px] lg:pt-[170px] lg:pb-[100px] bg-blue relative overflow-hidden">
         <div className="container mx-auto">
           <form onSubmit={handleSubmit} className="form">
             <div className="mb-5">

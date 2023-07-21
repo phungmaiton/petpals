@@ -1,23 +1,25 @@
 import Banner from "./Banner";
 import PageTransition from "./PageTransition";
-import MeetupItems from "./MeetupItems";
+import MeetupItemsHome from "./MeetupItemsHome";
 import BarLoader from "react-spinners/BarLoader";
 import { useState } from "react";
 
 export default function Home({ isLoading, meetups }) {
+  const sorted_meetups = meetups.sort((a, b) => a.date - b.date).slice(0, 3);
   return (
     <PageTransition>
       <div>
         <Banner />
       </div>
-      <section className="pt-[50px] pb-[50px] lg:pt-[50px] lg:pb-[50px] relative overflow-hidden">
+      <section className="pt-[50px] pb-[50px] lg:pt-[100px] lg:pb-[100px] relative overflow-hidden">
         <div className="container mx-auto px-10">
-          <div className="column-div">
+          <h2>Upcoming Meetups</h2>
+          <div className="column-div pt-5">
             {isLoading ? (
               <BarLoader color="#87AF73" />
             ) : (
-              meetups.map((meetup) => (
-                <MeetupItems
+              sorted_meetups.map((meetup) => (
+                <MeetupItemsHome
                   key={meetup.id}
                   title={meetup.title}
                   details={meetup.details}

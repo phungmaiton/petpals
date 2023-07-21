@@ -30,20 +30,21 @@ const RenderMeetups = ({ meetups }) => {
       </div>
       <div className="lg:col-span-3 ml-5">
         <h2>{meetup.title}</h2>
-        <h3>Date: {meetup.date}</h3>
-        <h3>Time: {meetup.time}</h3>
-        <p>
-          {meetup.details.length > 200
-            ? meetup.details.substring(0, 200) + "..."
+        <h4>Date: {meetup.date}</h4>
+        <h4>Time: {meetup.time}</h4>
+        <p className="mt-3">
+          {meetup.details.length > 220
+            ? meetup.details.substring(0, 220) + "..."
             : meetup.details}
         </p>
         <NavLink to={`/meetups/${meetup.id}`}>
-          <button className="px-btn px-btn-theme">View Meetup</button>
+          <button className="px-btn px-btn-theme mt-4">View Meetup</button>
         </NavLink>
       </div>
     </div>
   ));
 };
+
 
 export default function Dashboard({ 
   user, 
@@ -53,6 +54,10 @@ export default function Dashboard({
   handleMeetupEdit 
 }) {
   const user_pets = user ? pets.filter((pet) => pet.owner_id === user.id) : [];
+
+export default function Dashboard({ user, meetups, pets }) {
+  const user_pets = user ? pets.filter((pet) => pet.user_id === user.id) : [];
+
   const user_meetups = user
     ? meetups.filter((meetup) => meetup.user_id === user.id)
     : [];
@@ -61,7 +66,7 @@ export default function Dashboard({
     <PageTransition>
       {user && (
         <>
-          <section className="pt-[150px] pb-[20px] lg:pt-[130px] lg:pb-[30px] bg-blue relative overflow-hidden">
+          <section className="pt-[150px] pb-[20px] lg:pt-[150px] lg:pb-[50px] bg-blue relative overflow-hidden">
             <div className="container mx-auto px-10">
               <div>
                 <h1 className="text-[#373737] font-[600] text-[30px] lg:text-[35px] xl:text-[40px] leading-[1] mb-[25px] md:mb-[32px] px-3">
@@ -70,18 +75,18 @@ export default function Dashboard({
               </div>
             </div>
           </section>
-          <section className="py-[5%] lg:py-[3%] relative overflow-hidden">
+          <section className="py-[5%] lg:py-[5%] relative overflow-hidden">
             <div className="container mx-auto px-10">
               <div className="container mx-auto px-10">
                 <div className="grid lg:grid-cols-12 grid-cols-1 grid gap-10 items-top">
                   {/* Personal Info
                   ------------------------------*/}
-                  <div className="lg:col-span-6 text-left mb-[50px] lg:mb-0 dashboard-half">
+                  <div className="lg:col-span-6 text-left mb-0 lg:mb-0 dashboard-half">
                     <div className="grid grid-cols-4 gap-4">
                       <div className="col-span-3">
                         <h2>Personal Information</h2>
                       </div>
-                      <div className="lg:col-span-1 text-right mb-[50px] lg:mb-0 lg:ml-[10%] flex justify-end items-top">
+                      <div className="lg:col-span-1 text-right mb-0 lg:mb-0 lg:ml-[10%] flex justify-end items-top">
                         <div className="flex flex-col items-center spacy-y-1.5 relative text-xs ml-3">
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -109,26 +114,29 @@ export default function Dashboard({
                   </div>
                   {/* Pet Info
                   ------------------------------*/}
-                  <div className="lg:col-span-6 text-left mb-[50px] lg:mb-0 dashboard-half">
+                  <div className="lg:col-span-6 text-left mb-0 lg:mb-0 dashboard-half">
                     <div class="grid grid-cols-4 gap-4">
                       <div class="col-span-3">
                         <h2>Your Pets</h2>
                       </div>
                       <div className="lg:col-span-1 text-right mb-[50px] lg:mb-0 lg:ml-[10%] flex justify-end items-top">
-                        <div className="flex flex-col items-center spacy-y-1.5 relative text-xs ml-3">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="16"
-                            height="16"
-                            fill="currentColor"
-                            className="bi bi-plus-square dashboard-icon cursor-pointer"
-                            viewBox="0 0 16 16"
-                          >
-                            <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z" />
-                            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
-                          </svg>
-                          <p>Add</p>
-                        </div>
+                        <NavLink to="/add-pet">
+                          <div className="flex flex-col items-center spacy-y-1.5 relative text-xs ml-3">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="16"
+                              height="16"
+                              fill="currentColor"
+                              className="bi bi-plus-square dashboard-icon cursor-pointer"
+                              viewBox="0 0 16 16"
+                            >
+                              <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z" />
+                              <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
+                            </svg>
+                            <p>Add</p>
+                          </div>
+                        </NavLink>
+
                         <div className="flex flex-col items-center spacy-y-1.5 relative text-xs ml-3">
                           <svg
                             xmlns="http://www.w3.org/2000/svg"

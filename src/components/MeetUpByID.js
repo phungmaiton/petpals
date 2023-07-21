@@ -5,13 +5,17 @@ import PageTransition from "./PageTransition";
 import AttendForm from "./AttendForm";
 import Dashboard from "./Dashboard";
 import { useNavigate } from "react-router-dom";
+import LoginPopup from "./LoginPopUp";
+import MapComponent from "./MapComponent";
 
 
 const AttendeeList = ({ attendee }) => {
   return (
     <div className="attendees">
       <img className="avatar mt-3 mb-2" src={attendee.profile_pic} />
-      <h3>{attendee.name}</h3>
+      <p>
+        <strong>{attendee.name}</strong>
+      </p>
     </div>
   );
 };
@@ -20,8 +24,12 @@ export default function MeetUpByID({
   user,
   meetupAttendees,
   onAttendeeChange,
+
   deleteMeetup,
   handleMeetupEdit
+
+  onLogin,
+
 }) {
   const { id } = useParams();
   const [meetup, setMeetup] = useState(null);
@@ -29,6 +37,8 @@ export default function MeetUpByID({
   const [showModal, setShowModal] = useState(false);
   const [pets, setPets] = useState([]);
   const navigate = useNavigate();
+  const [showLogin, setShowLogin] = useState(false);
+
 
   useEffect(() => {
     setIsLoading(true);
@@ -83,6 +93,7 @@ export default function MeetUpByID({
     return <div>This meetup doesn't exist.</div>;
   }
 
+
   const handleDelete = (meetup) => {
     fetch(`/meetups/${meetup.id}`, {
       method: 'DELETE'
@@ -92,6 +103,9 @@ export default function MeetUpByID({
       navigate('/dashboard')
     })
   }
+
+
+  const address = `${meetup.street_address}, ${meetup.city}, ${meetup.state}, ${meetup.country}`;
 
 
   return (
@@ -128,7 +142,7 @@ export default function MeetUpByID({
           <div className="grid lg:grid-cols-12 grid-cols-1 items-center">
             {/* COVER
             ----------------*/}
-            <div className="lg:col-span-8 text-center mb-[50px] lg:mb-0">
+            <div className="lg:col-span-8 text-center mb-0 lg:mb-0">
               <div className="meetup-cover">
                 <img
                   src={
@@ -141,7 +155,7 @@ export default function MeetUpByID({
             </div>
             {/* EVENT INFO 
             ----------------*/}
-            <div className="lg:col-span-4 text-left mb-[50px] lg:mb-0 lg:ml-[10%] items-center">
+            <div className="lg:col-span-4 text-left mb-[0px] lg:mb-0 lg:ml-[10%] items-center">
               <div className="min-h-[300px]">
                 <div className="meetup-info">
                   <ul>
@@ -156,22 +170,36 @@ export default function MeetUpByID({
                       <br />
                       {meetup.street_address}
                       <br />
-                      {meetup.city} {meetup.state}
+                      {meetup.city}, {meetup.state}
                       <br />
                       {meetup.country}
                     </li>
                   </ul>
                 </div>
-                <div className="button-group">
-                  <div className="pt-2 lg:flex pr-[10px]">
-                    <button
-                      className="px-btn px-btn-theme px_modal"
-                      onClick={() => setShowModal(true)}
-                    >
-                      Attend
-                    </button>
+
+                {user ? (
+                  <div className="button-group">
+                    <div className="pt-2 lg:flex pr-[10px]">
+                      <button
+                        className="px-btn px-btn-theme px_modal"
+                        onClick={() => setShowModal(true)}
+                      >
+                        Attend
+                      </button>
+                    </div>
                   </div>
-                </div>
+                ) : (
+                  <div className="button-group">
+                    <div className="pt-2 lg:flex pr-[10px]">
+                      <button
+                        className="px-btn px-btn-theme px_modal"
+                        onClick={() => setShowLogin(true)}
+                      >
+                        Login to Attend
+                      </button>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -180,7 +208,7 @@ export default function MeetUpByID({
           <div className="grid lg:grid-cols-12 grid-cols-1 items-center">
             {/* DETAILS 
             ----------------*/}
-            <div className="lg:col-span-8 text-left mb-[50px] lg:mb-0 py-10">
+            <div className="lg:col-span-8 text-left mb-[0px] lg:mb-0 py-10">
               <div className="meetup-details">
                 <h3>Details</h3>
                 <p>{meetup.details}</p>
@@ -197,6 +225,9 @@ export default function MeetUpByID({
                 </div>
               </div>
             </div>
+            <div className="lg:col-span-4 ml-8">
+              <MapComponent address={address} />
+            </div>
           </div>
         </div>
       </section>
@@ -212,6 +243,15 @@ export default function MeetUpByID({
           <Dashboard
           handleDelete = {handleDelete}
           ></Dashboard>
+        </>
+      ) : null}
+      {showLogin ? (
+        <>
+          <LoginPopup
+            closePopup={closePopup}
+            setShowModal={setShowLogin}
+            onLogin={onLogin}
+          ></LoginPopup>
         </>
       ) : null}
     </PageTransition>

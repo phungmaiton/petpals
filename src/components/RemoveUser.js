@@ -1,3 +1,4 @@
+
 import { useState, useMemo } from "react";
 import { useFormik } from "formik";
 import countryList from "react-select-country-list";
@@ -13,6 +14,7 @@ import { useNavigate } from "react-router-dom";
 
 const failureAlert = () => {
   toast.warning("Failed to remove meetup.", {
+
     position: "bottom-center",
     autoClose: 4000,
     hideProgressBar: false,
@@ -25,7 +27,9 @@ const failureAlert = () => {
 };
 
 const successAlert = () => {
+
   toast.success("Meetup removed successfully", {
+
     position: "bottom-center",
     autoClose: 4000,
     hideProgressBar: false,
@@ -36,6 +40,7 @@ const successAlert = () => {
     theme: "light",
   });
 };
+
 
 export default function RemoveUser({
   user,
@@ -104,6 +109,7 @@ export default function RemoveUser({
       };
       console.log(data);
       fetch("/meetups", {
+
         method: "POST",
         body: JSON.stringify(data),
         headers: {
@@ -113,6 +119,7 @@ export default function RemoveUser({
       })
         .then((response) => response.json())
         .then((response) => {
+
           console.log("Server response:", response);
           const message = response.message; // Extract the message value for success/failure indication
           console.log("Response message:", message);
@@ -123,6 +130,7 @@ export default function RemoveUser({
             onMeetupAdded();
           } else {
             console.log("Failed to create meetup");
+
             failureAlert();
           }
         })
@@ -130,6 +138,7 @@ export default function RemoveUser({
           console.log("Errors", errors);
           failureAlert();
         });
+
 
       fetch("/meetup-attendees", {
         method: "POST",
@@ -320,6 +329,7 @@ export default function RemoveUser({
         {/* <div>{errorMessage && <div className="error">{errorMessage}</div>}</div> */}
       </form>
       <ToastContainer />
+
     </div>
   );
 }
