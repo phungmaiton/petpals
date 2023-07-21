@@ -213,7 +213,15 @@ function App() {
         />
         <Route
           path="/pets"
-          element={<Pets isLoading={isLoading} pets={pets} user={user} />}
+          element={
+            <Pets 
+              isLoading={isLoading} 
+              pets={pets} 
+              user={user} 
+              searchTerm={searchTerm}
+              setSearchTerm={setSearchTerm}
+              />
+            }
         />
         <Route
           path="pets/:id"
