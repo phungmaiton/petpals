@@ -10,7 +10,9 @@ const AttendeeList = ({ attendee }) => {
   return (
     <div className="attendees">
       <img className="avatar mt-3 mb-2" src={attendee.profile_pic} />
-      <h3>{attendee.name}</h3>
+      <p>
+        <strong>{attendee.name}</strong>
+      </p>
     </div>
   );
 };

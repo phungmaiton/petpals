@@ -1,6 +1,6 @@
 import Banner from "./Banner";
 import PageTransition from "./PageTransition";
-import MeetupItems from "./MeetupItems";
+import MeetupItemsHome from "./MeetupItemsHome";
 import BarLoader from "react-spinners/BarLoader";
 import { useState } from "react";
 
@@ -19,7 +19,7 @@ export default function Home({ isLoading, meetups }) {
               <BarLoader color="#87AF73" />
             ) : (
               sorted_meetups.map((meetup) => (
-                <MeetupItems
+                <MeetupItemsHome
                   key={meetup.id}
                   title={meetup.title}
                   details={meetup.details}
