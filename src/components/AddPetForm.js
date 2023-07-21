@@ -18,6 +18,21 @@ const failureAlert = () => {
   });
 };
 
+
+const successAlert = () => {
+  toast.success("Pet created successfully", {
+    position: "bottom-center",
+    autoClose: 4000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: false,
+    progress: undefined,
+    theme: "light",
+  });
+};
+
+
 export default function AddPetForm({ user, pets, setPets, onPetChange }) {
   const countries = useMemo(() => countryList().getData(), []);
   const [isLoading, setIsLoading] = useState(false);
