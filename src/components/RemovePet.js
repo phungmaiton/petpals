@@ -38,7 +38,7 @@ export default function RemovePet({
 
   console.log(pets);
   const successAlert = () => {
-    toast.success("User updated successfully", {
+    toast.success("Pet deleted successfully", {
       position: "bottom-center",
       autoClose: 4000,
       hideProgressBar: false,
