@@ -98,7 +98,14 @@ export default function Header({ user, setUser }) {
               {isOpenMenu && user && (
                 <div className="flex flex-row items-center space-x-2 mt-4">
                   <NavLink className="relative inline-block " to="/dashboard">
-                    <img className="nav-avatar" src={user.profile_pic} />
+                    <img
+                      className="nav-avatar"
+                      src={
+                        user
+                          ? user.profile_pic
+                          : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+                      }
+                    />
                   </NavLink>
                   <NavLink className="pl-2" onClick={handleClick}>
                     <svg
