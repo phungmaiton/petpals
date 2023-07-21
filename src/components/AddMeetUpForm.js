@@ -88,6 +88,7 @@ export default function AddMeetUpForm({
     onSubmit: (values) => {
       setIsLoading(true);
       const data = {
+        id: newMeetupId,
         user_id: values.user_id,
         pet_id: parseInt(values.pet_id),
         venue: values.venue,
