@@ -11,8 +11,6 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 
-
-
 const failureAlert = () => {
   toast.warning("Failed to change pet.", {
     position: "bottom-center",
@@ -44,7 +42,7 @@ export default function EditPet({
   onMeetupAdded,
   updateMeetup,
   meetupToEdit,
-  handleMeetupEdit
+  handleMeetupEdit,
 }) {
   const navigate = useNavigate();
   const countries = useMemo(() => countryList().getData(), []);
@@ -82,7 +80,7 @@ export default function EditPet({
     },
     onSubmit: (values) => {
       setIsLoading(true);
-        
+
       fetch(`/meetups/${meetupToEdit.id}`, {
         method: "PATCH",
         body: JSON.stringify(values),
@@ -92,12 +90,12 @@ export default function EditPet({
         },
       })
         .then((response) => {
-            if (response.ok) {
-                response.json().then(meetup => {
-                    updateMeetup(meetup)
-                    navigate(`/meetups/${meetupToEdit.id}`)
-                })
-            }
+          if (response.ok) {
+            response.json().then((meetup) => {
+              updateMeetup(meetup);
+              navigate(`/meetups/${meetupToEdit.id}`);
+            });
+          }
         })
         .then((response) => {
           console.log("Server response:", response);
@@ -290,5 +288,3 @@ export default function EditPet({
     </div>
   );
 }
-
-

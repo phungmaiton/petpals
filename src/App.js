@@ -118,6 +118,14 @@ function App() {
         setMeetupAttendees(ma);
       });
   }
+
+  function handleMeetupChange() {
+    fetch("/meetups")
+      .then((response) => response.json())
+      .then((meetups) => {
+        setMeetups(meetups);
+      });
+  }
   //meetup crud
   const updateMeetup = (meetupToUpdate) => {
     setMeetups((meetups) =>
@@ -270,6 +278,7 @@ function App() {
               onLogin={setUser}
               handleUserChange={handleUserChange}
               handlePetChange={handlePetChange}
+              handleMeetupChange={handleMeetupChange}
             />
           }
         />

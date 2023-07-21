@@ -3,13 +3,14 @@ import { NavLink } from "react-router-dom";
 import { useEffect, useState } from "react";
 import EditUser from "./EditUser";
 import RemovePet from "./RemovePet";
+import RemoveMeetup from "./RemoveMeetup";
 
 const RenderPets = ({ pets }) => {
   return pets.map((pet) => (
-    <div className="attendees" key={pet.id}>
+    <a className="attendees" key={pet.id} href={`/pets/${pet.id}`}>
       <img className="avatar mt-3 mb-2" src={pet.profile_pic} alt={pet.name} />
       <h3>{pet.name}</h3>
-    </div>
+    </a>
   ));
 };
 
@@ -51,6 +52,8 @@ export default function Dashboard({
   onLogin,
   handleUserChange,
   handlePetChange,
+  onUserChange,
+  handleMeetupChange,
 }) {
   const user_pets = user ? pets.filter((pet) => pet.user_id === user.id) : [];
   const user_meetups = user
@@ -59,6 +62,11 @@ export default function Dashboard({
 
   const [showUserEditModal, setShowUserEditModal] = useState(false);
   const [showPetRemove, setShowPetRemove] = useState(false);
+  const [showMeetupRemove, setShowMeetupRemove] = useState(false);
+
+  const closeMeetupRemove = () => {
+    setShowMeetupRemove(false);
+  };
   const closeUserEditPopup = () => {
     setShowUserEditModal(false);
   };
@@ -221,7 +229,10 @@ export default function Dashboard({
                           </div>
                         </NavLink>
 
-                        <div className="flex flex-col items-center spacy-y-1.5 relative text-xs ml-3">
+                        <div
+                          className="flex flex-col items-center spacy-y-1.5 relative text-xs ml-3"
+                          onClick={() => setShowMeetupRemove(true)}
+                        >
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             width="16"
@@ -289,6 +300,18 @@ export default function Dashboard({
             onLogin={onLogin}
             user={user}
             handlePetChange={handlePetChange}
+          />
+        </>
+      ) : null}
+      {showMeetupRemove ? (
+        <>
+          <RemoveMeetup
+            closePopup={closeMeetupRemove}
+            setShowModal={setShowMeetupRemove}
+            onLogin={onLogin}
+            user={user}
+            handlePetChange={handlePetChange}
+            handleMeetupChange={handleMeetupChange}
           />
         </>
       ) : null}
