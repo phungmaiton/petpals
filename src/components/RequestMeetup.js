@@ -40,7 +40,8 @@ export default function RequestMeetup({
   
     const formik = useFormik({
       initialValues: {
-        username: user.username
+        username: user.username,
+        
       },
       onSubmit: (values) => {
         const data = {

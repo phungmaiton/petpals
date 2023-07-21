@@ -77,7 +77,10 @@ export default function PetByID({
                   <div className="lg:col-span-4 text-left mb-[50px] lg:mb-0 lg:ml-[10%] items-center">
                     <div className="min-h-[300px]">
                       <div className="meetup-info">
-                        <h3>{pet.name} the {pet.species}</h3>
+                        <div className="flex items-center justify-center pb-1">
+                          {pet.species == "dog ? "}
+                        <h3>About {pet.name} {pet.species == "dog" ? "🐶" : "🐱"}</h3>
+                        </div>
                         <ul>
                           <li>
                             <strong>Breed:</strong> {pet.breed}
