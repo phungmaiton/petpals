@@ -4,6 +4,7 @@ import BarLoader from "react-spinners/BarLoader";
 import PageTransition from "./PageTransition";
 import AttendForm from "./AttendForm";
 import Dashboard from "./Dashboard";
+import { useNavigate } from "react-router-dom";
 
 
 const AttendeeList = ({ attendee }) => {
@@ -15,18 +16,19 @@ const AttendeeList = ({ attendee }) => {
   );
 };
 
-
-
 export default function MeetUpByID({
   user,
   meetupAttendees,
   onAttendeeChange,
+  deleteMeetup,
+  handleMeetupEdit
 }) {
   const { id } = useParams();
   const [meetup, setMeetup] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [pets, setPets] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     setIsLoading(true);
@@ -81,14 +83,15 @@ export default function MeetUpByID({
     return <div>This meetup doesn't exist.</div>;
   }
 
-  // const handleDelete = (meetup) => {
-  //   fetch(`/meetups/${meetup.id}`, {
-  //     method: 'DELETE'
-  //   })
-  //   .then(() => {
-  //     deleteMeetup(meetup)
-  //   })
-  // }
+  const handleDelete = (meetup) => {
+    fetch(`/meetups/${meetup.id}`, {
+      method: 'DELETE'
+    })
+    .then(() => {
+      deleteMeetup(meetup)
+      navigate('/dashboard')
+    })
+  }
 
 
   return (
@@ -206,9 +209,9 @@ export default function MeetUpByID({
             pets={user_pets}
             onAttendeeChange={onAttendeeChange}
           ></AttendForm>
-          {/* <Dashboard
+          <Dashboard
           handleDelete = {handleDelete}
-          ></Dashboard> */}
+          ></Dashboard>
         </>
       ) : null}
     </PageTransition>

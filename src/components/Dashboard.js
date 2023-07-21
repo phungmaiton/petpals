@@ -45,7 +45,13 @@ const RenderMeetups = ({ meetups }) => {
   ));
 };
 
-export default function Dashboard({ user, meetups, pets }) {
+export default function Dashboard({ 
+  user, 
+  meetups, 
+  pets, 
+  handleDelete, 
+  handleMeetupEdit 
+}) {
   const user_pets = user ? pets.filter((pet) => pet.owner_id === user.id) : [];
   const user_meetups = user
     ? meetups.filter((meetup) => meetup.user_id === user.id)
@@ -195,7 +201,7 @@ export default function Dashboard({ user, meetups, pets }) {
                           </div>
                         </NavLink>
 
-                        <NavLink to="/meetups">
+                        <NavLink to="/dashboard">
                           <div className="flex flex-col items-center spacy-y-1.5 relative text-xs ml-3">
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
@@ -208,10 +214,13 @@ export default function Dashboard({ user, meetups, pets }) {
                               <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z" />
                               <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
                             </svg>
-                            <p>Remove</p>
+                            
+                            <button onClick={() => handleDelete(meetups[1].id)}>Delete</button>
+                            {console.log(meetups)}
                           </div>
                         </NavLink>
-                        <NavLink to={`/meetups/:id/edit-meetup`}>
+                        <NavLink to={`/meetups/${user.meetups[0].id}/edit-meetup`}>
+                          {console.log(user.meetups)}
                           <div className="flex flex-col items-center spacy-y-1.5 relative text-xs ml-3">
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
@@ -227,7 +236,7 @@ export default function Dashboard({ user, meetups, pets }) {
                                 d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"
                               />
                             </svg>
-                            <p>Edit</p>
+                            <button className="px-btn px-btn-theme mt-4" onClick={() => handleMeetupEdit(meetups[1].id)}>Edit</button>
                           </div>
                         </NavLink>
                       </div>

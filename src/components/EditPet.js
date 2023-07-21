@@ -14,7 +14,7 @@ import { useNavigate } from "react-router-dom";
 
 
 const failureAlert = () => {
-  toast.warning("Failed to change meetup.", {
+  toast.warning("Failed to change pet.", {
     position: "bottom-center",
     autoClose: 4000,
     hideProgressBar: false,
@@ -27,7 +27,7 @@ const failureAlert = () => {
 };
 
 const successAlert = () => {
-  toast.success("Meetup changed successfully", {
+  toast.success("Pet updated successfully", {
     position: "bottom-center",
     autoClose: 4000,
     hideProgressBar: false,
@@ -39,7 +39,7 @@ const successAlert = () => {
   });
 };
 
-export default function EditMeetUp({
+export default function EditPet({
   user,
   onMeetupAdded,
   updateMeetup,
@@ -281,7 +281,7 @@ export default function EditMeetUp({
 
         <div>
           <button type="onClick" className="px-btn px-btn-theme mt-4">
-            {isLoading ? "Loading..." : "Change Meetup"}
+            {isLoading ? "Loading..." : "Change Pet"}
           </button>
         </div>
         {/* <div>{errorMessage && <div className="error">{errorMessage}</div>}</div> */}

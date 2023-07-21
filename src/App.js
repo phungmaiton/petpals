@@ -11,6 +11,8 @@ import { useState, useEffect } from "react";
 import AddMeetUp from "./components/AddMeetUp";
 import EditMeetUp from './components/EditMeetUp'
 import { useNavigate } from "react-router-dom";
+import EditPet from "./components/EditPet";
+import EditUser from "./components/EditUser";
 
 function App() {
   const location = useLocation();
@@ -20,6 +22,8 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [meetupAttendees, setMeetupAttendees] = useState([]);
   const [meetupToEdit, setMeetupToEdit] = useState(false)
+  const [petToEdit, setPetToEdit] = useState(false)
+  const [userToEdit, setUserToEdit] = useState(false)
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -84,7 +88,7 @@ function App() {
         setMeetupAttendees(ma);
       });
   }
-
+//meetup crud
   const updateMeetup = (meetupToUpdate) => {
     setMeetups(meetups => meetups.map(meetup => {
       if (meetup.id === meetupToUpdate.id) {
@@ -95,7 +99,7 @@ function App() {
     }))
   }
 
-  const handleEdit = (meetup) => {
+  const handleMeetupEdit = (meetup) => {
     setMeetupToEdit(meetup)
     navigate(`/meetups/${meetup.id}/edit-meetup`)
   }
@@ -104,6 +108,44 @@ function App() {
     setMeetups(meetups => 
       meetups.filter(meetup => meetup.id !== deletedMeetup.id))
   }
+  //pet crud
+  const updatePet = (petToUpdate) => {
+    setPets(pets => pets.map(pet => {
+      if (pet.id === petToUpdate.id) {
+        return petToUpdate
+      } else {
+        return pet
+      }
+    }))
+  }
+
+  const handlePetEdit = (pet) => {
+    setPetToEdit(pet)
+    navigate(`/pets/${pet.id}/edit-pet`)
+  }
+
+  const deletePet = (deletedPet) => {
+    setPets(pets => 
+      pets.filter(pet => pet.id !== deletedPet.id))
+  }
+
+  //user crud
+  // const updateUser = (userToUpdate) => {
+  //   setUser(users => users.map(meetup => {
+  //     if (user.id === userToUpdate.id) {
+  //       return userToUpdate
+  //     } else {
+  //       return user
+  //     }
+  //   }))
+  // }
+
+  // const handleUserEdit = (user) => {
+  //   setUserToEdit(user)
+  //   navigate(``)
+  // }
+
+
 
   return (
     <div>
@@ -134,7 +176,7 @@ function App() {
               pet={pets}
               meetupAttendees={meetupAttendees}
               onAttendeeChange={handleAttendeeChange}
-              handleEdit = {handleEdit}
+              handleMeetupEdit = {handleMeetupEdit}
               deleteMeetup = {deleteMeetup}
             />
           }
@@ -148,6 +190,7 @@ function App() {
               user={user} 
               meetups={meetups} 
               pets={pets} 
+              handleMeetupEdit = {handleMeetupEdit}
               
             />
           }
@@ -164,7 +207,7 @@ function App() {
           }
         />
         <Route
-          path="/meetups/id/edit-meetup"
+          path="/meetups/edit"
           element={
             <EditMeetUp
               user={user}
@@ -173,9 +216,38 @@ function App() {
               meetups={meetups}
               updateMeetup = {updateMeetup}
               meetupToEdit ={meetupToEdit}
+              handleMeetupEdit = {handleMeetupEdit}
+            />
+            
+          }
+        />
+
+        <Route
+          path="/pets/edit"
+          element={
+            <EditPet
+              user={user}
+              pet={pets}
+              meetups={meetups}
+              updatePet = {updatePet}
+              petToEdit ={petToEdit}
+              handlePetEdit = {handlePetEdit}
             />
           }
         />
+         {/* <Route
+          path="/dashboard/edit"
+          element={
+            <EditUser
+              user={user}
+              pet={pets}
+              meetups={meetups}
+              updateUser = {updateUser}
+              userToEdit ={userToEdit}
+              handleUserEdit = {handleUserEdit}
+            />
+          }
+        /> */}
       </Routes>
     </div>
   );

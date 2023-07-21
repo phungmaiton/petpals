@@ -14,7 +14,7 @@ import { useNavigate } from "react-router-dom";
 
 
 const failureAlert = () => {
-  toast.warning("Failed to change meetup.", {
+  toast.warning("Failed to edit user.", {
     position: "bottom-center",
     autoClose: 4000,
     hideProgressBar: false,
@@ -27,7 +27,7 @@ const failureAlert = () => {
 };
 
 const successAlert = () => {
-  toast.success("Meetup changed successfully", {
+  toast.success("User changed successfully", {
     position: "bottom-center",
     autoClose: 4000,
     hideProgressBar: false,
@@ -39,7 +39,7 @@ const successAlert = () => {
   });
 };
 
-export default function EditMeetUp({
+export default function EditUser({
   user,
   onMeetupAdded,
   updateMeetup,
