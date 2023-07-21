@@ -11,6 +11,7 @@ export default function PetByID({ user, onLogin }) {
   const { id } = useParams();
   const [showModal, setShowModal] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
+  console.log(pet)
 
   const closePopup = () => {
     setShowModal(false);
@@ -130,6 +131,7 @@ export default function PetByID({ user, onLogin }) {
               closePopup={closePopup}
               setShowModal={setShowModal}
               user={user}
+              owner={pet.user}
             ></RequestMeetup>
           </>
         ) : null}

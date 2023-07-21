@@ -19,7 +19,8 @@ const failureAlert = () => {
 export default function RequestMeetup({
     closePopup,
     setShowModal,
-    user
+    user,
+    owner
   }) {
     const [isLoading, setIsLoading] = useState(false);
     const successAlert = () => {
@@ -41,11 +42,15 @@ export default function RequestMeetup({
     const formik = useFormik({
       initialValues: {
         username: user.username,
-        
+        recipient_email: owner.email,
+        sender_email: user.email,
       },
       onSubmit: (values) => {
         const data = {
-          username: user.username
+          username: user.username,
+          recipient_email: owner.email,
+          sender_email: user.email,
+          message: values.message
         };
         fetch("/send", {
           method: "POST",
@@ -57,7 +62,8 @@ export default function RequestMeetup({
         })
           .then((response) => response.json())
           .then((response) => {
-            if (response.message === "successful") {
+            console.log(response)
+            if (response === "Sent") {
               successAlert();
               formik.resetForm();
             } else {
