@@ -29,6 +29,7 @@ export default function AddMeetUpForm({
   onMeetupAdded,
   onAttendeeChange,
   meetups,
+  onUserChange,
 }) {
   const navigate = useNavigate();
   const countries = useMemo(() => countryList().getData(), []);
@@ -124,6 +125,7 @@ export default function AddMeetUpForm({
             successAlert();
             formik.resetForm();
             onMeetupAdded();
+            onUserChange();
           } else {
             console.log("Failed to create meetup");
             failureAlert();
