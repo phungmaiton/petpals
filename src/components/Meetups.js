@@ -115,7 +115,7 @@ export default function Meetups({
           </div>
           <Pagination
             paginate={paginate}
-            array={meetups}
+            array={filteredMeetups}
             postsPerPage={postsPerPage}
           />
         </div>
