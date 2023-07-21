@@ -12,8 +12,6 @@ const RenderPets = ({ pets }) => {
   ));
 };
 
-
-
 const RenderMeetups = ({ meetups }) => {
   return meetups.map((meetup) => (
     <div
@@ -54,9 +52,6 @@ export default function Dashboard({
   handleMeetupEdit 
 }) {
   const user_pets = user ? pets.filter((pet) => pet.owner_id === user.id) : [];
-
-export default function Dashboard({ user, meetups, pets }) {
-  const user_pets = user ? pets.filter((pet) => pet.user_id === user.id) : [];
 
   const user_meetups = user
     ? meetups.filter((meetup) => meetup.user_id === user.id)
@@ -244,7 +239,7 @@ export default function Dashboard({ user, meetups, pets }) {
                                 d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"
                               />
                             </svg>
-                            <button className="px-btn px-btn-theme mt-4" onClick={() => handleMeetupEdit(meetups[1].id)}>Edit</button>
+                            <button onClick={() => handleMeetupEdit(meetups[1].id)}>Edit</button>
                           </div>
                         </NavLink>
                       </div>

@@ -24,10 +24,8 @@ export default function MeetUpByID({
   user,
   meetupAttendees,
   onAttendeeChange,
-
   deleteMeetup,
-  handleMeetupEdit
-
+  handleMeetupEdit,
   onLogin,
 
 }) {
