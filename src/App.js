@@ -261,6 +261,7 @@ function App() {
               handleMeetupEdit={handleMeetupEdit}
               onLogin={setUser}
               handleUserChange={handleUserChange}
+              handlePetChange={handlePetChange}
             />
           }
         />

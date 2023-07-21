@@ -24,17 +24,19 @@ const failureAlert = () => {
   });
 };
 
-export default function EditUser({
+export default function RemovePet({
   user,
   onLogin,
   setShowModal,
   closePopup,
-  handleUserChange,
+  handlePetChange,
 }) {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
 
-  console.log(user);
+  const pets = user.pets;
+
+  console.log(pets);
   const successAlert = () => {
     toast.success("User updated successfully", {
       position: "bottom-center",
@@ -54,24 +56,18 @@ export default function EditUser({
 
   const formik = useFormik({
     initialValues: {
-      username: user.username,
-      email: user.email,
+      pet_id: pets.length > 0 ? pets[0].id.toString() : "",
     },
     onSubmit: (values) => {
       setIsLoading(true);
 
-      fetch(`/users/${user.id}`, {
-        method: "PATCH",
-        body: JSON.stringify(values),
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
+      fetch(`/pets/${values.pet_id}`, {
+        method: "DELETE",
       })
         .then((response) => {
           if (response.ok) {
             response.json().then((user) => {
-              onLogin(user);
+              handlePetChange();
             });
           }
         })
@@ -105,35 +101,27 @@ export default function EditUser({
             className="form"
           >
             <div>
-              <label className="form-label">Username</label>
-              <input
-                name="username"
-                id="username"
-                placeholder="Enter your new username"
+              <label className="form-label">
+                Which pet would you like to remove?
+              </label>
+              <select
+                id="pet_id"
+                name="pet_id"
                 className="form-control"
-                type="text"
                 onChange={formik.handleChange}
-                value={formik.values.username}
-              />
-              <p className="error"> {formik.errors.username}</p>
+                value={formik.values.pet_id}
+              >
+                {pets.map((pet) => (
+                  <option key={pet.id} value={pet.id.toString()}>
+                    {pet.name}
+                  </option>
+                ))}
+              </select>
+              <p className="error"> {formik.errors.pet_id}</p>
             </div>
-            <div>
-              <label className="form-label">Email Addresss</label>
-              <input
-                name="email"
-                id="email"
-                placeholder="Enter your new email"
-                className="form-control"
-                type="text"
-                onChange={formik.handleChange}
-                value={formik.values.email}
-              />
-              <p className="error"> {formik.errors.email}</p>
-            </div>
-
             <div>
               <button type="onClick" className="px-btn px-btn-theme mt-4">
-                {isLoading ? "Loading..." : "Update"}
+                {isLoading ? "Loading..." : "Remove"}
               </button>
             </div>
             {/* <div>{errorMessage && <div className="error">{errorMessage}</div>}</div> */}
