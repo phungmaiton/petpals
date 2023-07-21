@@ -190,7 +190,7 @@ export default function Dashboard({
                         </div>
                       </div>
                       <div className="col-span-4">
-                        {user.pets.length === 0 ? (
+                        {user && user.pets && user.pets.length === 0 ? (
                           <div>You currently have no pets</div>
                         ) : (
                           <div className="flex text-center">
@@ -265,7 +265,7 @@ export default function Dashboard({
                         </div>
                       </div>
                     </div>
-                    {user.meetups.length === 0 ? (
+                    {user && user.meetups && user.meetups.length === 0 ? (
                       <div className="grid grid-cols-4 gap-4">
                         <div className="col-span-3">
                           <div>You currently have no meetups</div>
