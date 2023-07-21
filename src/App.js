@@ -11,15 +11,37 @@ import { useState, useEffect } from "react";
 import AddMeetUp from "./components/AddMeetUp";
 import AddPet from "./components/AddPet";
 import Footer from "./components/Footer";
+import Geocode from "react-geocode";
+
+Geocode.setApiKey("AIzaSyAN_Pb8XbXRMZcpXQXax9GIyIfo0f5odgM");
+const fetchMeetupLocation = async (meetup) => {
+  const { street_address, city, state, country } = meetup;
+  const meetupAddress = `${street_address}, ${city}, ${state}, ${country}`;
+
+  try {
+    const response = await Geocode.fromAddress(meetupAddress);
+    const { lat, lng } = response.results[0].geometry.location;
+    return { ...meetup, latitude: lat, longitude: lng };
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+};
+const calculateLatLongForMeetups = async (meetups) => {
+  const updatedMeetups = await Promise.all(meetups.map(fetchMeetupLocation));
+  return updatedMeetups.filter((meetup) => meetup !== null);
+};
 
 function App() {
   const location = useLocation();
   const [user, setUser] = useState(null);
   const [meetups, setMeetups] = useState([]);
   const [pets, setPets] = useState([]);
-
+  const [searchTerm, setSearchTerm] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [meetupAttendees, setMeetupAttendees] = useState([]);
+  const [updatedMeetups, setUpdatedMeetups] = useState([]);
+  const [isMeetupsLoading, setIsMeetupsLoading] = useState(true);
 
   useEffect(() => {
     // auto-login
@@ -45,7 +67,7 @@ function App() {
       .then((response) => response.json())
       .then((meetups) => {
         setMeetups(meetups);
-        setIsLoading(false);
+        setIsMeetupsLoading(false);
       });
   }, []);
   useEffect(() => {
@@ -91,6 +113,15 @@ function App() {
         setPets(pets);
       });
   }
+
+  useEffect(() => {
+    if (!isMeetupsLoading) {
+      calculateLatLongForMeetups(meetups).then((updatedMeetups) => {
+        setUpdatedMeetups(updatedMeetups);
+      });
+    }
+  }, [isMeetupsLoading, meetups]);
+
   return (
     <div>
       <Header user={user} setUser={setUser} />
@@ -107,12 +138,14 @@ function App() {
           path="/meetups"
           element={
             <Meetups
-              meetups={meetups}
+              meetups={updatedMeetups}
               isLoading={isLoading}
               user={user}
               pets={pets}
               meetupAttendees={meetupAttendees}
               onLogin={setUser}
+              searchTerm={searchTerm}
+              setSearchTerm={setSearchTerm}
             />
           }
         />

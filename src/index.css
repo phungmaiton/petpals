@@ -231,6 +231,19 @@ nav-avatar:hover {
 .chat {
   @apply items-center bg-white shadow-lg p-8 rounded-lg ease-in duration-150 my-5
 }
+
+.search {
+  @apply w-[250px] text-[16px] font-[400] leading-[1.5] text-slate-900 bg-white border border-solid border-slate-900 outline-none px-[12px] py-[10px] mr-5;
+}
+
+.dropDown {
+  text-align: left;
+  width: 12%;
+  padding: 7px 5px 7px 5px;
+  border: solid 2px;
+  border-color:	rgb(220,220,220);
+  border-radius: 5px;
+}
 /* Backgrounds
 ------------------------------*/
 
