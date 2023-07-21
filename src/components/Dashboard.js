@@ -2,6 +2,7 @@ import PageTransition from "./PageTransition";
 import { NavLink } from "react-router-dom";
 import { useEffect, useState } from "react";
 import EditUser from "./EditUser";
+import RemovePet from "./RemovePet";
 
 const RenderPets = ({ pets }) => {
   return pets.map((pet) => (
@@ -49,6 +50,7 @@ export default function Dashboard({
   pets,
   onLogin,
   handleUserChange,
+  handlePetChange,
 }) {
   const user_pets = user ? pets.filter((pet) => pet.user_id === user.id) : [];
   const user_meetups = user
@@ -56,8 +58,12 @@ export default function Dashboard({
     : [];
 
   const [showUserEditModal, setShowUserEditModal] = useState(false);
-  const closeLoginPopup = () => {
+  const [showPetRemove, setShowPetRemove] = useState(false);
+  const closeUserEditPopup = () => {
     setShowUserEditModal(false);
+  };
+  const closePetPopup = () => {
+    setShowPetRemove(false);
   };
 
   const [errorMessage, setErrorMessage] = useState("");
@@ -140,7 +146,10 @@ export default function Dashboard({
                           </div>
                         </NavLink>
 
-                        <div className="flex flex-col items-center spacy-y-1.5 relative text-xs ml-3">
+                        <div
+                          className="flex flex-col items-center spacy-y-1.5 relative text-xs ml-3"
+                          onClick={() => setShowPetRemove(true)}
+                        >
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             width="16"
@@ -173,7 +182,7 @@ export default function Dashboard({
                         </div>
                       </div>
                       <div className="col-span-4">
-                        {pets.length === 0 ? (
+                        {user.pets.length === 0 ? (
                           <div>You currently have no pets</div>
                         ) : (
                           <div className="flex text-center">
@@ -245,7 +254,7 @@ export default function Dashboard({
                         </div>
                       </div>
                     </div>
-                    {meetups.length === 0 ? (
+                    {user.meetups.length === 0 ? (
                       <div className="grid grid-cols-4 gap-4">
                         <div className="col-span-3">
                           <div>You currently have no meetups</div>
@@ -264,11 +273,22 @@ export default function Dashboard({
       {showUserEditModal ? (
         <>
           <EditUser
-            closePopup={closeLoginPopup}
+            closePopup={closeUserEditPopup}
             setShowModal={setShowUserEditModal}
             onLogin={onLogin}
             user={user}
             handleUserChange={handleUserChange}
+          />
+        </>
+      ) : null}
+      {showPetRemove ? (
+        <>
+          <RemovePet
+            closePopup={closePetPopup}
+            setShowModal={setShowPetRemove}
+            onLogin={onLogin}
+            user={user}
+            handlePetChange={handlePetChange}
           />
         </>
       ) : null}
