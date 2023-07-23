@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import EditUser from "./EditUser";
 import RemovePet from "./RemovePet";
 import RemoveMeetup from "./RemoveMeetup";
+import EditPet from "./EditPet";
+import EditMeetup from "./EditMeetUp";
 
 const RenderPets = ({ pets }) => {
   return pets.map((pet) => (
@@ -63,7 +65,8 @@ export default function Dashboard({
   const [showUserEditModal, setShowUserEditModal] = useState(false);
   const [showPetRemove, setShowPetRemove] = useState(false);
   const [showMeetupRemove, setShowMeetupRemove] = useState(false);
-
+  const [showPetEdit, setShowPetEdit] = useState(false);
+  const [showEditMeetup, setShowEditMeetup] = useState(false);
   const closeMeetupRemove = () => {
     setShowMeetupRemove(false);
   };
@@ -72,6 +75,13 @@ export default function Dashboard({
   };
   const closePetPopup = () => {
     setShowPetRemove(false);
+  };
+  const closePetEdit = () => {
+    setShowPetEdit(false);
+  };
+
+  const closeMeetupEdit = () => {
+    setShowEditMeetup(false);
   };
 
   const [errorMessage, setErrorMessage] = useState("");
@@ -171,7 +181,10 @@ export default function Dashboard({
                           </svg>
                           <p>Remove</p>
                         </div>
-                        <div className="flex flex-col items-center spacy-y-1.5 relative text-xs ml-3">
+                        <div
+                          className="flex flex-col items-center spacy-y-1.5 relative text-xs ml-3"
+                          onClick={() => setShowPetEdit(true)}
+                        >
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             width="16"
@@ -246,7 +259,10 @@ export default function Dashboard({
                           </svg>
                           <p>Remove</p>
                         </div>
-                        <div className="flex flex-col items-center spacy-y-1.5 relative text-xs ml-3">
+                        <div
+                          className="flex flex-col items-center spacy-y-1.5 relative text-xs ml-3"
+                          onClick={() => setShowEditMeetup(true)}
+                        >
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             width="16"
@@ -311,6 +327,29 @@ export default function Dashboard({
             onLogin={onLogin}
             user={user}
             handlePetChange={handlePetChange}
+            handleMeetupChange={handleMeetupChange}
+          />
+        </>
+      ) : null}
+
+      {showPetEdit ? (
+        <>
+          <EditPet
+            closePopup={closePetEdit}
+            setShowModal={setShowPetEdit}
+            onLogin={onLogin}
+            user={user}
+            handlePetChange={handlePetChange}
+          />
+        </>
+      ) : null}
+      {showEditMeetup ? (
+        <>
+          <EditMeetup
+            closePopup={closeMeetupEdit}
+            setShowModal={setShowEditMeetup}
+            onLogin={onLogin}
+            user={user}
             handleMeetupChange={handleMeetupChange}
           />
         </>

@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { useFormik } from "formik";
 import countryList from "react-select-country-list";
 import DatePicker from "react-datepicker";
@@ -12,20 +12,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 
 const failureAlert = () => {
-  toast.warning("Failed to change pet.", {
-    position: "bottom-center",
-    autoClose: 4000,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: false,
-    progress: undefined,
-    theme: "light",
-  });
-};
-
-const successAlert = () => {
-  toast.success("Pet updated successfully", {
+  toast.warning("Failed to edit user.", {
     position: "bottom-center",
     autoClose: 4000,
     hideProgressBar: false,
@@ -39,49 +26,52 @@ const successAlert = () => {
 
 export default function EditPet({
   user,
-  onMeetupAdded,
-  updateMeetup,
-  meetupToEdit,
-  handleMeetupEdit,
+  onLogin,
+  setShowModal,
+  closePopup,
+  handlePetChange,
 }) {
   const navigate = useNavigate();
-  const countries = useMemo(() => countryList().getData(), []);
   const [isLoading, setIsLoading] = useState(false);
-  const [pets, setPets] = useState(user && user.pets ? user.pets : []);
-  const [startDate, setStartDate] = useState(new Date());
-  const [value, onChange] = useState("10:00");
+  const countries = useMemo(() => countryList().getData(), []);
+  const pets = user.pets;
+  const [selectedPet, setSelectedPet] = useState([]);
 
-  //   const formSchema = yup.object().shape({
-  //     pet_id: yup.number().required("Please select a pet"),
-  //     venue: yup.string().required("Please enter a venue name"),
-  //     street_address: yup
-  //       .string()
-  //       .required("Please enter a valid street address"),
-  //     city: yup.string().required("Please enter a valid city"),
-  //     state: yup.string().required("Please enter a valid state"),
-  //     date: yup.string().required("Please select a date"),
-  //     time: yup.string().required("Please select a time"),
-  //   });
+  const selectPet = (id) => {
+    const selectedPet = pets.filter((pet) => pet.id == id);
+    setSelectedPet(selectedPet);
+  };
+
+  const successAlert = () => {
+    toast.success("Pet updated successfully", {
+      position: "bottom-center",
+      autoClose: 4000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: false,
+      progress: undefined,
+      theme: "light",
+    });
+    setTimeout(() => {
+      setShowModal(false);
+      window.location.reload();
+    }, 3000);
+  };
 
   const formik = useFormik({
     initialValues: {
-      user_id: user.id,
-      pet_id: pets.length > 0 ? pets[0].id.toString() : "",
-      title: meetupToEdit.title,
-      venue: meetupToEdit.venue,
-      street_address: meetupToEdit.street_address,
-      city: meetupToEdit.city,
-      state: meetupToEdit.state,
-      country: meetupToEdit.country,
-      date: meetupToEdit.date,
-      time: meetupToEdit.time,
-      image: meetupToEdit.image,
-      details: meetupToEdit.details,
+      pet_id: "",
+      profile_pic: "",
+      city: "",
+      state: "",
+      country: "",
+      availability: "",
     },
     onSubmit: (values) => {
       setIsLoading(true);
 
-      fetch(`/meetups/${meetupToEdit.id}`, {
+      fetch(`/pets/${values.pet_id}`, {
         method: "PATCH",
         body: JSON.stringify(values),
         headers: {
@@ -91,25 +81,23 @@ export default function EditPet({
       })
         .then((response) => {
           if (response.ok) {
-            response.json().then((meetup) => {
-              updateMeetup(meetup);
-              navigate(`/meetups/${meetupToEdit.id}`);
+            response.json().then((pet) => {
+              handlePetChange();
             });
           }
         })
         .then((response) => {
-          console.log("Server response:", response);
-          const message = response.message; // Extract the message value for success/failure indication
-          console.log("Response message:", message);
-          if (message === "Meetup changed successfully.") {
-            setIsLoading(false);
-            successAlert();
-            formik.resetForm();
-            onMeetupAdded();
-          } else {
-            console.log("Failed to change meetup");
-            failureAlert();
-          }
+          // console.log("Server response:", response);
+          // const message = response.message;
+          // console.log("Response message:", message);
+          // if (message === "successful") {
+          successAlert();
+          formik.resetForm();
+
+          // else {
+          //   console.log("Failed to update user");
+          //   failureAlert();
+          // }
         })
         .catch((errors) => {
           console.log("Errors", errors);
@@ -117,173 +105,133 @@ export default function EditPet({
         });
     },
   });
-  return (
-    <div className="container mx-auto form-container">
-      <form
-        onSubmit={formik.handleSubmit}
-        id="meetup-add-form"
-        method="PATCH"
-        className="form"
-      >
-        <div>
-          <label className="form-label">Select Pet</label>
-          <select
-            id="pet_id"
-            name="pet_id"
-            className="form-control"
-            onChange={formik.handleChange}
-            value={formik.values.pet_id}
-          >
-            {pets.map((pet) => (
-              <option key={pet.id} value={pet.id}>
-                {pet.name}
-              </option>
-            ))}
-          </select>
-          <p className="error"> {formik.errors.pet_id}</p>
-        </div>
-        <div>
-          <label className="form-label">Title</label>
-          <input
-            name="title"
-            id="title"
-            placeholder="Give your meetup a cool name"
-            className="form-control"
-            type="text"
-            onChange={formik.handleChange}
-            value={formik.values.title}
-          />
-          <p className="error"> {formik.errors.venue}</p>
-        </div>
-        <div>
-          <label className="form-label">Details</label>
-          <textarea
-            name="details"
-            id="details"
-            placeholder=""
-            className="form-control"
-            type="text"
-            onChange={formik.handleChange}
-            value={formik.values.details}
-          />
-          <p className="error"> {formik.errors.venue}</p>
-        </div>
-        <div>
-          <label className="form-label">Venue Name</label>
-          <input
-            name="venue"
-            id="venue"
-            placeholder="Enter Your Venue Name. E.g: Dog Park"
-            className="form-control"
-            type="text"
-            onChange={formik.handleChange}
-            value={formik.values.venue}
-          />
-          <p className="error"> {formik.errors.venue}</p>
-        </div>
-        <div>
-          <label className="form-label">Street Address</label>
-          <input
-            name="street_address"
-            id="street_address"
-            className="form-control"
-            type="text"
-            onChange={formik.handleChange}
-            value={formik.values.street_address}
-          />
-          <p className="error"> {formik.errors.street_address}</p>
-        </div>
-        <div className="grid grid-cols-2 gap-2">
-          <div className="col-span-1">
-            <label className="form-label">City</label>
-            <input
-              name="city"
-              id="city"
-              className="form-control"
-              type="text"
-              onChange={formik.handleChange}
-              value={formik.values.city}
-            />
-            <p className="error"> {formik.errors.city}</p>
-          </div>
-          <div className="col-span-1">
-            <label className="form-label">State</label>
-            <input
-              name="state"
-              id="state"
-              className="form-control"
-              type="text"
-              onChange={formik.handleChange}
-              value={formik.values.state}
-            />
-            <p className="error"> {formik.errors.state}</p>
-          </div>
-        </div>
-        <div>
-          <label className="form-label">Country</label>
-          <select
-            id="country"
-            name="country"
-            className="form-control"
-            onChange={formik.handleChange}
-            value={formik.values.country}
-          >
-            {countries.map((country) => (
-              <option key={country.code} value={country.code}>
-                {country.label}
-              </option>
-            ))}
-          </select>
-          <p className="error"> {formik.errors.country}</p>
-        </div>
-        <div className="grid grid-cols-2 gap-2">
-          <div className="col-span-1">
-            <label className="form-label">Date</label>
-            <div>
-              <DatePicker
-                className="form-control"
-                name="date"
-                selected={startDate}
-                onChange={(date) => formik.setFieldValue("date", date)}
-                minDate={new Date()}
-              />
-            </div>
-            <p className="error"> {formik.errors.date}</p>
-          </div>
-          <div className="col-span-1">
-            <label className="form-label">Time</label>
-            <div>
-              <TimePicker
-                name="time"
-                onChange={(time) => formik.setFieldValue("time", time)}
-                value={formik.values.time}
-                className="form-time"
-                clearIcon={null}
-              />
-            </div>
-            <p className="error"> {formik.errors.time}</p>
-          </div>
-        </div>
-        <div>
-          <label className="form-label">Image</label>
-          <input
-            name="image"
-            id="image"
-            className="form-control"
-            type="text"
-            onChange={formik.handleChange}
-            value={formik.values.image}
-          />
-          <p className="error"> {formik.errors.image}</p>
-        </div>
 
-        <div>
-          <button type="onClick" className="px-btn px-btn-theme mt-4">
-            {isLoading ? "Loading..." : "Change Pet"}
+  useEffect(() => {
+    if (selectedPet.length > 0) {
+      formik.setValues({
+        ...formik.values,
+        profile_pic: selectedPet[0].profile_pic || "",
+        city: selectedPet[0].city || "",
+        state: selectedPet[0].state || "",
+        country: selectedPet[0].country || "",
+        availability: selectedPet[0].availability || "",
+      });
+    }
+  }, [selectedPet]);
+  return (
+    <div className="px-modal mfp-hide">
+      <div className="popup">
+        <div className="grid grid-cols-1 gx-3">
+          <form
+            onSubmit={formik.handleSubmit}
+            id="user-edit-form"
+            method="PATCH"
+            className="form"
+          >
+            <h3 className="mb-3">Edit the fields you want to update</h3>
+            <div>
+              <label className="form-label">Which pet are you editing?</label>
+              <select
+                id="pet_id"
+                name="pet_id"
+                className="form-control"
+                onChange={(event) => {
+                  formik.handleChange(event);
+                  selectPet(event.target.value);
+                }}
+                value={formik.values.pet_id}
+              >
+                <option></option>
+                {pets.map((pet) => (
+                  <option key={pet.id} value={pet.id.toString()}>
+                    {pet.name}
+                  </option>
+                ))}
+              </select>
+              <p className="error"> {formik.errors.pet_id}</p>
+            </div>
+            <div>
+              <label className="form-label">Profile Picture</label>
+              <input
+                name="profile_pic"
+                id="profile_pic"
+                placeholder="Profile pic URL"
+                className="form-control"
+                type="text"
+                onChange={formik.handleChange}
+                value={formik.values.profile_pic}
+              />
+              <p className="error"> {formik.errors.profile_pic}</p>
+            </div>
+            <div>
+              <label className="form-label">City</label>
+              <input
+                name="city"
+                id="city"
+                placeholder=""
+                className="form-control"
+                type="text"
+                onChange={formik.handleChange}
+                value={formik.values.city}
+              />
+              <p className="error"> {formik.errors.city}</p>
+            </div>
+            <div>
+              <label className="form-label">State</label>
+              <input
+                name="state"
+                id="state"
+                placeholder=""
+                className="form-control"
+                type="text"
+                onChange={formik.handleChange}
+                value={formik.values.state}
+              />
+              <p className="error"> {formik.errors.state}</p>
+            </div>
+            <div>
+              <label className="form-label">Country</label>
+              <select
+                id="country"
+                name="country"
+                className="form-control"
+                onChange={formik.handleChange}
+                value={formik.values.country}
+              >
+                {countries.map((country) => (
+                  <option key={country.code} value={country.code}>
+                    {country.label}
+                  </option>
+                ))}
+              </select>
+              <p className="error"> {formik.errors.country}</p>
+            </div>
+            <div>
+              <label className="form-label">Availability</label>
+              <textarea
+                name="availability"
+                id="availability"
+                placeholder="Tell your potential pals what your schedule looks like"
+                className="form-control"
+                type="text"
+                onChange={formik.handleChange}
+                value={formik.values.availability}
+              />
+              <p className="error"> {formik.errors.availability}</p>
+            </div>
+
+            <div>
+              <button type="onClick" className="px-btn px-btn-theme mt-4">
+                {isLoading ? "Loading..." : "Update"}
+              </button>
+            </div>
+            {/* <div>{errorMessage && <div className="error">{errorMessage}</div>}</div> */}
+          </form>
+          <button className="px-close" onClick={closePopup}>
+            <i className="fa fa-times"></i>
           </button>
         </div>
-        {/* <div>{errorMessage && <div className="error">{errorMessage}</div>}</div> */}
-      </form>
+      </div>
       <ToastContainer />
     </div>
   );
