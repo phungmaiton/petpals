@@ -32,7 +32,7 @@ export default function Header({ user, setUser }) {
         <div className="container mx-auto px-10 flex items-center justify-between relative py-5 lg:py-3 ">
           <div className="logo">
             <NavLink to="/">
-              <img src="/img/logo.png" title="Logo" alt="Logo" width="177px" />
+              <img src="img/logo.png" title="Logo" alt="Logo" width="177px" />
             </NavLink>
           </div>
           <button
