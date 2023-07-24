@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/petpals/static/css/main.78c58860.css",
-    "main.js": "/petpals/static/js/main.7209d248.js",
+    "main.js": "/petpals/static/js/main.ea44c5f3.js",
     "static/js/787.b3031023.chunk.js": "/petpals/static/js/787.b3031023.chunk.js",
     "index.html": "/petpals/index.html",
     "main.78c58860.css.map": "/petpals/static/css/main.78c58860.css.map",
-    "main.7209d248.js.map": "/petpals/static/js/main.7209d248.js.map",
+    "main.ea44c5f3.js.map": "/petpals/static/js/main.ea44c5f3.js.map",
     "787.b3031023.chunk.js.map": "/petpals/static/js/787.b3031023.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.78c58860.css",
-    "static/js/main.7209d248.js"
+    "static/js/main.ea44c5f3.js"
   ]
 }
