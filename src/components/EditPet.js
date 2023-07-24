@@ -71,7 +71,7 @@ export default function EditPet({
     onSubmit: (values) => {
       setIsLoading(true);
 
-      fetch(`/pets/${values.pet_id}`, {
+      fetch(`https://petpals.onrender.com/pets/${values.pet_id}`, {
         method: "PATCH",
         body: JSON.stringify(values),
         headers: {

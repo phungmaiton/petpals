@@ -58,7 +58,7 @@ function App() {
 
   useEffect(() => {
     // auto-login
-    fetch("/check_session")
+    fetch("https://petpals.onrender.com/check_session")
       .then((response) => {
         if (response.ok) {
           return response.json();
@@ -76,7 +76,7 @@ function App() {
 
   useEffect(() => {
     setIsLoading(true);
-    fetch("/meetups")
+    fetch("https://petpals.onrender.com/meetups")
       .then((response) => response.json())
       .then((meetups) => {
         setMeetups(meetups);
@@ -85,7 +85,7 @@ function App() {
   }, []);
   useEffect(() => {
     setIsLoading(true);
-    fetch("/pets")
+    fetch("https://petpals.onrender.com/pets")
       .then((response) => response.json())
       .then((pets) => {
         setPets(pets);
@@ -94,7 +94,7 @@ function App() {
   }, []);
 
   useEffect(() => {
-    fetch("/meetup-attendees")
+    fetch("https://petpals.onrender.com/meetup-attendees")
       .then((response) => response.json())
       .then((ma) => {
         setMeetupAttendees(ma);
@@ -103,7 +103,7 @@ function App() {
 
   function handleRefreshMeetups() {
     setIsLoading(true);
-    fetch("/meetups")
+    fetch("https://petpals.onrender.com/meetups")
       .then((response) => response.json())
       .then((meetups) => {
         setMeetups(meetups);
@@ -112,7 +112,7 @@ function App() {
   }
 
   function handleAttendeeChange() {
-    fetch("/meetup-attendees")
+    fetch("https://petpals.onrender.com/meetup-attendees")
       .then((response) => response.json())
       .then((ma) => {
         setMeetupAttendees(ma);
@@ -120,7 +120,7 @@ function App() {
   }
 
   function handleMeetupChange() {
-    fetch("/meetups")
+    fetch("https://petpals.onrender.com/meetups")
       .then((response) => response.json())
       .then((meetups) => {
         setMeetups(meetups);
@@ -188,7 +188,7 @@ function App() {
   // }
 
   function handlePetChange() {
-    fetch("/pets")
+    fetch("https://petpals.onrender.com/pets")
       .then((response) => response.json())
       .then((pets) => {
         setPets(pets);
@@ -196,7 +196,7 @@ function App() {
   }
 
   function handleUserChange() {
-    fetch("/users")
+    fetch("https://petpals.onrender.com/users")
       .then((response) => response.json())
       .then((users) => {
         setUsers(user);

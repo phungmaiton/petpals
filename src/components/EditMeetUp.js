@@ -77,7 +77,7 @@ export default function EditMeetup({
     onSubmit: (values) => {
       setIsLoading(true);
 
-      fetch(`/meetups/${values.id}`, {
+      fetch(`https://petpals.onrender.com/meetups/${values.id}`, {
         method: "PATCH",
         body: JSON.stringify(values),
         headers: {

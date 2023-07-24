@@ -15,7 +15,7 @@ export default function Signup({ onLogin }) {
   function handleSubmit(e) {
     e.preventDefault();
     setIsLoading(true);
-    fetch("/signup", {
+    fetch("https://petpals.onrender.com/signup", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

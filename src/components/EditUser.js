@@ -60,7 +60,7 @@ export default function EditUser({
     onSubmit: (values) => {
       setIsLoading(true);
 
-      fetch(`/users/${user.id}`, {
+      fetch(`https://petpals.onrender.com/users/${user.id}`, {
         method: "PATCH",
         body: JSON.stringify(values),
         headers: {

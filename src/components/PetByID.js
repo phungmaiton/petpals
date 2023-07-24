@@ -11,7 +11,7 @@ export default function PetByID({ user, onLogin }) {
   const { id } = useParams();
   const [showModal, setShowModal] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
-  console.log(pet)
+  console.log(pet);
 
   const closePopup = () => {
     setShowModal(false);
@@ -19,7 +19,7 @@ export default function PetByID({ user, onLogin }) {
 
   useEffect(() => {
     setIsLoading(true);
-    fetch(`/pets/${id}`)
+    fetch(`https://petpals.onrender.com/pets/${id}`)
       .then((response) => response.json())
       .then((pet) => {
         setPet(pet);

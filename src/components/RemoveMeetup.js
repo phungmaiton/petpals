@@ -61,7 +61,7 @@ export default function RemoveMeetup({
     onSubmit: (values) => {
       setIsLoading(true);
 
-      fetch(`/meetups/${values.meetup_id}`, {
+      fetch(`https://petpals.onrender.com/meetups/${values.meetup_id}`, {
         method: "DELETE",
       })
         .then((response) => {

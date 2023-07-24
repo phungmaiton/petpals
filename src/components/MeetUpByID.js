@@ -40,7 +40,7 @@ export default function MeetUpByID({
 
   useEffect(() => {
     setIsLoading(true);
-    fetch("/pets")
+    fetch("https://petpals.onrender.com/pets")
       .then((response) => response.json())
       .then((pets) => {
         setPets(pets);
@@ -65,7 +65,7 @@ export default function MeetUpByID({
 
   useEffect(() => {
     setIsLoading(true);
-    fetch(`/meetups/${id}`)
+    fetch(`https://petpals.onrender.com/meetups/${id}`)
       .then((response) => response.json())
       .then((meetup) => {
         setMeetup(meetup);
@@ -92,7 +92,7 @@ export default function MeetUpByID({
   }
 
   const handleDelete = (meetup) => {
-    fetch(`/meetups/${meetup.id}`, {
+    fetch(`https://petpals.onrender.com/meetups/${meetup.id}`, {
       method: "DELETE",
     }).then(() => {
       deleteMeetup(meetup);

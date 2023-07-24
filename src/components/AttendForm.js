@@ -52,7 +52,7 @@ export default function AttendForm({
       };
       console.log(data);
       console.log(values);
-      fetch("/meetup-attendees", {
+      fetch("https://petpals.onrender.com/meetup-attendees", {
         method: "POST",
         body: JSON.stringify(data),
         headers: {

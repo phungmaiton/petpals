@@ -61,7 +61,7 @@ export default function RemovePet({
     onSubmit: (values) => {
       setIsLoading(true);
 
-      fetch(`/pets/${values.pet_id}`, {
+      fetch(`https://petpals.onrender.com/pets/${values.pet_id}`, {
         method: "DELETE",
       })
         .then((response) => {

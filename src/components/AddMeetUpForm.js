@@ -109,7 +109,7 @@ export default function AddMeetUpForm({
         attendee_id: parseInt(values.pet_id),
       };
       console.log(data);
-      fetch("/meetups", {
+      fetch("https://petpals.onrender.com/meetups", {
         method: "POST",
         body: JSON.stringify(data),
         headers: {
@@ -138,7 +138,7 @@ export default function AddMeetUpForm({
           failureAlert();
         });
 
-      fetch("/meetup-attendees", {
+      fetch("https://petpals.onrender.com/meetup-attendees", {
         method: "POST",
         body: JSON.stringify(attendData),
         headers: {

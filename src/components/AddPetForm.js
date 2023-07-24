@@ -85,7 +85,7 @@ export default function AddPetForm({
       };
 
       console.log(data);
-      fetch("/pets", {
+      fetch("https://petpals.onrender.com/pets", {
         method: "POST",
         body: JSON.stringify(data),
         headers: {
