@@ -216,6 +216,7 @@ function App() {
       <Header user={user} setUser={setUser} />
       <Routes locations={location} key={location.pathname}>
         <Route
+          exact
           path="/"
           element={<Home isLoading={isLoading} meetups={meetups} />}
         />
